@@ -83,7 +83,7 @@ Contents in private directory is only accessible to server code
 
 Contents in public directory is accessible to client 
 
-## Testing TODO - minimal testing has been implemented.
+# Testing TODO - testing with Mocha in progress
 
 # Install as a service (for remote Ubuntu instances, e.g. a droplet)
 - If you followed the recommendation to install as root from your home folder, you will not need to edit zojab.service
