@@ -1,0 +1,104 @@
+
+<p *ngIf="error" class="red">{{error}} </p>
+<p *ngIf="success" class="green">{{success}} </p>
+
+<div layout="row" layout-wrap layout-align="start start" class="top-admin-controls" *ngIf="isAdmin">
+
+  <div flex="30">
+    <form [formGroup]="usersFromForm">
+      <mat-form-field>
+          <input
+            matInput
+            formControlName="fromValue"
+            type="text"
+            placeholder="From Email"
+            class="input-width-80">      
+      </mat-form-field>
+    </form>
+  </div>
+
+  <div flex="40">
+    <div *ngFor="let user of usersFrom  | async">
+      <span (click)="selectFromUser(user)">{{user.emails[0].address}}</span>
+    </div>
+  </div>
+
+  <div flex="30">
+    <button mat-raised-button color="primary" (click)="applyFilter()"> Apply </button>
+  </div>
+
+  <div flex="100"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Total items: {{total}} </div>
+
+  <div flex="30">
+      <form [formGroup]="usersToForm">
+          <mat-form-field>
+              <input
+                matInput
+                formControlName="toValue"
+                type="text"
+                placeholder="To Email"
+                class="input-width-80"
+                [(ngModel)]=clearField2 >
+          </mat-form-field>
+      </form>
+  </div>
+
+  <div flex="40">
+    <div *ngFor="let user of usersTo  | async">
+      <span (click)="selectToUser(user)">{{user.emails[0].address}} </span>
+    </div>
+  </div>
+
+  <div flex="30">
+    <button mat-raised-button color="warn" (click)="transferMyPricesOwnership()"> Transfer Prices to "To Email"</button>
+  </div>
+
+</div>
+
+<hr>
+
+<span *ngIf="display_spinner"> {{display_spinner}} <mat-spinner></mat-spinner> </span>
+<span *ngIf="display_progress"> <mat-progress-bar mode="determinate" value="{{progress_bar}}"></mat-progress-bar> </span>
+
+<span *ngIf="!display_progress">
+  <table>
+    <tr>
+      <th>Store</th>
+      <th>SubmittedAt</th>
+      <th>StartsAt</th>
+      <th>Price</th>
+      <th>Name</th>
+      <th>Quantity</th>
+      <th>&nbsp; Size-Unit</th>
+      <th>Image</th>
+      <th>Edit</th>
+    </tr>
+
+    <tr *ngFor="let price of thesePrices | paginate: { id: 'allPrices', itemsPerPage: pageSize, currentPage: p, totalItems: total }">
+      <td> {{ price.store_info[0].name }} </td>
+      <td> {{price.submittedAt | displayFormatDate}} </td>
+      <td> {{price.startsAt | displayFormatDateSm}} </td>
+      <td> &nbsp; &nbsp; {{price.expiresAt}} </td>
+      <td> &nbsp; &nbsp; {{price.distance}} </td>
+      <td> &nbsp; &nbsp; {{price.quantity}}</td>
+      
+      <td> &nbsp; &nbsp; {{price.submitterId}} </td>
+      <td> <img class="w100" src="{{price.image}}"> </td>
+      <td> 
+        &nbsp; <a mat-raised-button id="small-button2" color="warn" (click)="editTprice(price)"> Edit </a> 
+        &nbsp; &nbsp; <a mat-raised-button id="small-button2" color="accent" (click)="deleteTprice(price)"> Delete </a>  
+      </td>
+
+    </tr>
+  </table>
+
+  <div class="center-stuff">
+    <pagination-controls (pageChange)="getPage($event)" id="allPrices"></pagination-controls>
+  </div>
+
+  <span *ngIf="isAdmin">
+      &nbsp; &nbsp; <button mat-raised-button color="accent" (click)="processManualPrices()">Process Temp Prices</button> 
+  </span>
+
+</span>
+

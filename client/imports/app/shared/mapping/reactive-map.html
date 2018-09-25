@@ -1,0 +1,32 @@
+        <places-autocomplete *ngIf="searchEnabled" contextID="map_builtin" [persist]="true"></places-autocomplete>
+        
+        <agm-map
+                [latitude]="myLocation.latitude"
+                [longitude]="myLocation.longitude"
+                [zoom]="zoom"
+                [disableDefaultUI]="true"
+                [zoomControl]="true">
+
+            <agm-marker iconUrl="/img/my_location.png" [latitude]="myLocation.latitude" [longitude]="myLocation.longitude"></agm-marker>
+
+            <agm-marker *ngFor="let result of data_source; let i=index" 
+            iconUrl="/img/map_point.png" 
+            [latitude]="result.latitude" 
+            [longitude]="result.longitude"
+             (markerClick)="clickedMarker(i)"></agm-marker>
+
+        </agm-map>
+
+        <div class="map-overlay-container">
+                    <button mat-mini-fab (click)="useDeviceLocation()"><mat-icon class="md-24">my_location</mat-icon></button>
+                    <button mat-mini-fab (click)="useCustomLocation()"><mat-icon class="md-24">edit_location</mat-icon></button>
+        </div>
+
+        <div class="map-search-results">
+                <ng-content></ng-content>
+        </div>
+
+
+        <div class="debug_output_console">
+            <pre>{{debugOutput}}</pre>
+        </div>

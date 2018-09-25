@@ -1,0 +1,12 @@
+<h2>Welcome</h2>
+<h3>If your are viewing this page, it is because you have been granted supreme access to the mother ship!</h3>
+
+
+Set Custom Location:
+<places-autocomplete *ngIf="searchEnabled" contextID="map_builtin" [persist]="true"  (onSearchComplete)="customAddressSelected($event)"  > </places-autocomplete>
+
+<p>
+  Address: {{address}} <br />
+  Latitude: {{lat}} <br />
+  Longitude: {{lng}}
+</p>

@@ -1,0 +1,109 @@
+<div class="zo1-container">
+
+  <form [formGroup]="requestNewItemForm" (submit)="addNewRequestPrice()">
+
+    <div id="topdiv">
+      <a mat-raised-button [routerLink]="['/items']" class="top-49">Cancel</a>
+        <button mat-button type="submit" mat-raised-button color="primary" class="top-49">Add</button>
+    </div>
+
+    <br />
+    <br />
+
+    <div class="layout-margin-5-center blue-prim">Add a New Item</div>
+
+    <div class="row">
+      <div class="zo1-info">
+        <mat-card>
+
+          <span *ngIf="display_spinner"><mat-spinner></mat-spinner></span>
+          <p *ngIf="errors.error" class="alert-danger">{{errors.error}}</p>
+
+          <mat-form-field class="input-width-95">
+              <input
+                  matInput
+                  placeholder="{{labels.name_5}}"
+                  formControlName="itemName">
+            </mat-form-field>
+            <div *ngIf="errors.itemName_isMinLength" class="alert alert-danger">{{msgs.itemName_isMinLength}}</div>
+
+            <br />
+            <span class="ngcontent_gray4">ex: Campbell's Chunky Baked Potatoe with Cheddar & Bacon Bits Soup</span><br>
+            <span class="ngcontent_gray4">ex: Coors Light Cold Activated Beer - 12 bottles 12 oz</span><br>
+            <span class="ngcontent_gray4">ex: Harris Ranch Fully Cooked Beef Meal - Boneless Beef Short ribs</span><br>
+
+            <br />
+            <br />
+
+            <span *ngIf="!ctSelected">
+              <mat-form-field class="input-width-90">
+                <input
+                    matInput
+                    placeholder="Size"
+                    maxlength="40"
+                    required
+                    formControlName="itemSize">
+              </mat-form-field>
+
+              <br />
+              <br />
+            </span>
+
+            <span *ngIf="ctSelected">
+              <mat-form-field class="input-width-18">
+                <input 
+                  matInput 
+                  disabled
+                  value="1">
+              </mat-form-field>
+            </span>
+
+            <mat-select
+                class="input-width-80" 
+                placeholder="Units" 
+                formControlName="itemUnit" 
+                (ngModelChange)="onChangeUnits($event)"
+                name="unit">
+              <mat-option *ngFor="let unit of unitsList" [value]="unit.value">
+                {{unit.viewValue}}
+              </mat-option>
+            </mat-select>
+                    
+            <br />
+            <br /> 
+            <br /> 
+
+            <input mat-raised-button class="file-button-width" type="file" (change)="onChange($event)"/>  &nbsp; &nbsp; | &nbsp; &nbsp;
+
+            <!--Using button fires off a form submit... style this link like a button instead-->
+            <a  mat-raised-button (click)="takeDaPicture()"> Take Photo </a>
+
+            <mat-card-actions>
+              <span *ngIf="!thumb_spinner">
+                <div *ngIf="thumb_image">
+                  <img [src]="thumb_image"/>
+                </div>
+              </span>
+
+              <span *ngIf="thumb_spinner">
+                   <mat-spinner class="thumb-spinner"></mat-spinner>
+              </span>
+            </mat-card-actions>
+
+            <br />
+
+        </mat-card>
+
+      </div>
+    </div>
+
+  </form>
+
+</div>
+
+
+
+
+
+
+

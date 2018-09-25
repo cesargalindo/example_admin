@@ -1,0 +1,166 @@
+
+<div class="page-padding-3">
+
+  <h3>Edit User info on client</h3>
+
+  <span *ngIf="apolloUser2 | async | select: 'apUserbyId'"></span>
+
+
+  <p>Cell: {{cell}} </p>
+  <p>eMail: {{email}} </p>
+
+  <p>Firstname: {{firstname}} </p>
+  <p>Lastname: {{lastname}} </p>
+
+  <p>Score: {{score}} </p>
+
+  <p *ngIf="error" class="alert-danger">{{error}}</p>
+  <p *ngIf="success" class="green">{{success}}</p>
+
+  <div layout="row" layout-wrap layout-align="start start" class="top-admin-controls">
+    <div flex="45">
+      <form [formGroup]="cellVerifiedForm">
+        <mat-form-field>
+          <mat-select  placeholder="Cell Verified" formControlName="value" [(ngModel)]="cellVerifiedValue" >
+            <mat-option *ngFor="let item of cellVerifiedList" [value]="item.value">{{item.viewValue}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form>
+    </div>
+
+    <div flex="45">
+      <form [formGroup]="emailVerifiedForm">
+        <mat-form-field>
+          <mat-select  placeholder="Email Verified" formControlName="value" [(ngModel)]="emailVerifiedValue" >
+            <mat-option *ngFor="let item of emailVerifiedList" [value]="item.value">{{item.viewValue}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form>
+    </div>
+  </div>
+
+  <div layout="row" layout-wrap layout-align="start start" class="top-admin-controls">
+    <div flex="30">
+      <form [formGroup]="requestForm">
+        <mat-form-field>
+          <mat-select  placeholder="Request" formControlName="value" [(ngModel)]="requestValue" >
+          <mat-option *ngFor="let item of requestList" [value]="item.value">{{item.viewValue}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form>
+    </div>
+
+    <div flex="30">
+      <form [formGroup]="submitForm">
+        <mat-form-field>
+          <mat-select  placeholder="Submit" formControlName="value" [(ngModel)]="submitValue" >
+            <mat-option *ngFor="let item of submitList" [value]="item.value">{{item.viewValue}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form>
+    </div>
+
+    <div flex="30">
+      <form [formGroup]="withdrawForm">
+        <mat-form-field>
+          <mat-select  placeholder="Withdraw" formControlName="value" [(ngModel)]="withdrawValue" >
+            <mat-option *ngFor="let item of withdrawList" [value]="item.value">{{item.viewValue}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form>
+    </div>
+  </div>
+
+  <br />
+
+  <div class="width-100">
+    <button mat-raised-button [routerLink]="['/users']"> Back </button> &nbsp; | &nbsp; <button mat-raised-button color="primary" (click)="EditUser()"> Update Main User </button>
+  </div>
+
+  <br />
+  <hr  class="width-100">
+  <br />
+
+  <div layout="row" layout-wrap layout-align="start start" class="top-admin-controls">
+    <form [formGroup]="itemMatchFrom">
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="Skip Pages * 25 items"
+            type="number"
+            dividerColor="primary"
+            formControlName="skip">
+        </mat-form-field>
+
+        &nbsp; &nbsp; &nbsp; &nbsp; 
+
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="Total Matches"
+            type="number"
+            dividerColor="primary"
+            formControlName="total">
+        </mat-form-field>
+    </form>
+  </div>
+
+  <h3>Edit User Roles on Admin Site</h3>
+
+  <span *ngIf="localUserId">
+
+    <p *ngIf="error2" class="alert-danger">{{error2}}</p>
+    <p *ngIf="success2" class="green">{{success2}}</p>
+
+    <mat-checkbox class="example-margin" [(ngModel)]="contractor">Contractor</mat-checkbox>
+    <br />
+    <mat-checkbox class="example-margin" [(ngModel)]="leadContractor">Lead Contractor</mat-checkbox>
+
+    <br />
+
+    <span *ngIf="leadContractor">
+      <form [formGroup]="contractorEmailsForm">
+        <mat-form-field class="input-width-90">
+          <input
+              matInput
+              type="text"
+              dividerColor="primary"
+              formControlName="emails"
+              placeholder="Enter contractor emails seperated by a comma">
+        </mat-form-field>
+        
+        <br />
+
+        <mat-form-field>
+          <mat-select  placeholder="StoreChain" formControlName="store" >
+            <mat-option *ngFor="let store of storesList" [value]="store.value">{{store.viewValue}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+      </form>  
+    </span>
+
+    <br /> 
+    <mat-checkbox class="example-margin" [(ngModel)]="superadmin">Super Admin</mat-checkbox>
+    <br /> 
+
+    <div class="width-100">
+      <button  mat-raised-button [routerLink]="['/users']"> Back </button> &nbsp; | &nbsp; <button  mat-raised-button color="primary"(click)="updateLocalUser()"> Update Local User </button>
+    </div>
+
+  </span>
+
+  <span *ngIf="!localUserId" class="red">
+    <h4 *ngIf="!success2">This user does not exist on admin site. Do you want to add user now?</h4>
+
+    <p *ngIf="error2" class="alert-danger">{{error2}}</p>
+    <p *ngIf="success2" class="green">{{success2}}</p>
+
+    <div class="width-100">
+        &nbsp; &nbsp; &nbsp; <button  mat-raised-button color="warn"(click)="addNewUser()"> Add User to Admin Site </button>
+    </div>
+
+  </span>  
+
+
+</div>

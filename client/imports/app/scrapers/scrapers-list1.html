@@ -1,0 +1,141 @@
+
+<div layout="row" layout-wrap layout-align="start start" class="xtop-admin-controls">
+
+  <div flex="30">
+    <mat-form-field> 
+      <mat-select placeholder="{{scrapedStore}}" [(ngModel)]="owner" (ngModelChange)="onChangeStore($event)">
+        <mat-option *ngFor="let st of storeChains" [value]="st.value">
+          {{ st.viewValue }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div flex="50">
+    <form [formGroup]="itemsForm">
+      Name: <input [(ngModel)]="searchName"
+                formControlName="name"
+                placeholder="enter name to search for..."
+                type="text"
+                class="input-width-60">
+    </form>
+
+    <mat-form-field>
+      <mat-select [(value)]="selectedProduce"  (change)="onChangeFilterTerm($event)">
+        <mat-option *ngFor="let ftp of _varsService.filterTermsProduce" [value]="ftp.value">
+            {{ ftp.viewValue }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-select [(value)]="selectedMeat"  (change)="onChangeFilterTerm($event)">
+        <mat-option *ngFor="let ftm of _varsService.filterTermsMeats" [value]="ftm.value">
+            {{ ftm.viewValue }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-select [(value)]="selectedOther"  (change)="onChangeFilterTerm($event)">
+        <mat-option *ngFor="let fto of _varsService.filterTermsOther" [value]="fto.value">
+            {{ fto.viewValue }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+  </div>
+
+  <div flex="20">  
+    &nbsp; &nbsp; <button mat-raised-button color="accent" id="small-button" (click)="applyFilter()"> FILTER </button>
+    <p> Total items: {{ total }}  </p>
+  </div>
+
+</div>
+
+<span *ngIf="apolloItemsCount2 | async"></span>
+<span *ngIf="display_progress"> <mat-progress-bar mode="determinate" value="{{progress_bar}}"></mat-progress-bar> </span>
+
+<span *ngIf="!display_progress">
+
+  <div class="is-text-centered ">
+    <span id="abso"> 
+      <a mat-raised-button id="small-button" (click)="getItems(pskip1)"> {{pskip1}} </a> 
+      <a mat-raised-button id="small-button" (click)="getItems(pskip2)"> {{pskip2}} </a> &nbsp; &nbsp; &nbsp; &nbsp;
+    </span>
+    <pagination-controls (pageChange)="getItems($event)" id="itemPager"></pagination-controls>
+  </div>
+
+  <table>
+    
+    <tr>
+      <th>Match</th>
+      <th>Name</th>
+      <th>Size-Unit</th>
+      <th>Image</th>
+      <th>Status - Start - End - Desc / Matches </th>
+    </tr>
+
+    <tr class="layout-margin-5" *ngFor="let it of apolloItems2 | async | paginate: { id: 'itemPager', itemsPerPage: pageSize, currentPage: p, totalItems: total }">
+      
+      <td> 
+        <button (click)="matchItems(it)">Match</button>  <br /> &nbsp; <br /> <button (click)="editItemNote(it)">Note</button>
+      </td>    
+
+      <td *ngIf="!itemStatus[it._id]">
+        {{it.name}}
+        <button mat-raised-button color="primary" (click)="editItemStatus(it)" *ngIf="isAdmin">SKIP</button>  
+        <span *ngIf="it.note" class="red"> <br /> {{it.note}} </span>
+      </td>
+
+      <td *ngIf="itemStatus[it._id]" class="dark-slate-gray">
+        {{it.name}}  <button (click)="editItemStatus(it)" *ngIf="isAdmin">SKIP</button>  
+        <span *ngIf="it.note" class="red"> <br /> {{it.note}} </span>
+      </td>
+
+      <td> {{it.size}} {{it.unit}} </td>
+      
+      <td> <img class="h100" src="{{it.image}}"> </td> 
+
+      <td class="bottom-border"> 
+        {{it.status}} - {{it.updatedAt | displayFormatDateSm }} - {{it.description}} 
+        <span *ngIf="it.mitems">
+            <span *ngFor="let mitem of it.mitems">
+              <br /> 
+              <span class="light-blue">
+                    {{ mitem.itemT.name }}, {{ mitem.itemT.size }} {{ mitem.itemT.unit }}  <img class="w40" src="{{mitem.itemT.image}}">
+              </span>
+              <span *ngIf="!mitem.itemT.upc" class="pink"> no upc </span>
+              <span *ngIf="mitem.quantity" class="light-green">qty: {{mitem.quantity}} </span>
+          </span>
+        </span>
+      </td>
+
+    </tr>
+
+  </table>
+
+  <br />
+
+  <div class="is-text-centered ">
+    <span id="abso"> 
+      <a mat-raised-button id="small-button" (click)="getItems(pskip1)"> {{pskip1}} </a> 
+      <a mat-raised-button id="small-button" (click)="getItems(pskip2)"> {{pskip2}} </a> &nbsp; &nbsp; &nbsp; &nbsp;
+    </span>
+    <pagination-controls (pageChange)="getItems($event)" id="itemPager"></pagination-controls> 
+  </div>
+
+  <hr />
+
+  <span *ngIf="isAdmin">
+    &nbsp; &nbsp; <button mat-raised-button color="accent" (click)="processScrapedMatches()">Create Prices for Scraped Item Matches</button> filters by updatedAt, chainName, upcMatch = false, validSprice = true 
+    <hr />
+    <hr />
+  </span>
+
+</span>
+
+<br />
+
+<dialog-sitem>load dialog-sitem by clicking id foofoo </dialog-sitem>
+

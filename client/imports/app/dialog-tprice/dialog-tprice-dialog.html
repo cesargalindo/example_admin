@@ -1,0 +1,47 @@
+<div class="dialog-header">
+  <span class="dialog-title-text">Add Price for: &nbsp; {{data.name}} </span> <br />
+  <span class="dialog-title-text">Store: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  {{data.storeInfo}} </span> <br />
+  <span class="dialog-title-text">Start Date: &nbsp; &nbsp; &nbsp; {{data.startDate | date:'yMMMd' }} </span>
+
+  <button mat-dialog-close class="dialog-close-button material-icons md24" id="forceCloseClick">close</button>
+</div>
+
+<br />
+
+<h3 *ngIf="errorMsg"> <span class="red"> {{errorMsg}} </span> </h3>
+
+<form [formGroup]="itemForm">
+
+  <mat-card>
+    <mat-form-field class="input-width-90">
+      <input
+          matInput
+          type="tel"
+          dividerColor="primary"
+          formControlName="price"
+          placeholder="enter PRICE here">
+    </mat-form-field>
+    <br />
+    <br />
+
+    <mat-form-field class="input-width-90">
+      <input
+          matInput
+          type="tel"
+          dividerColor="primary"
+          formControlName="quantity"
+          placeholder="enter QUANTITY here">
+    </mat-form-field>
+    <br />
+    <br />
+
+  </mat-card>
+
+</form>
+
+
+<br /><br />
+<button *ngIf="buttonEnabled" mat-raised-button class="dialog-primary-button" (click)="updateItem()"> Add Price </button> 
+<button *ngIf="!buttonEnabled" mat-raised-button disabled> Add Price </button> 
+
+<br />

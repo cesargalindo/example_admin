@@ -1,0 +1,40 @@
+
+Amount to pay for price (per store): <b>{{payRequestVal | currency:'USD':true:'1.2-2'}} </b> <br />
+<mat-slider
+    thumbLabel
+    tickInterval="1"
+    min="{{payRequestStep}}"
+    max="{{payRequestMax}}"
+    step="{{payRequestStep}}"
+    value="{{payRequestDefault | number:'1.2-2'}}"
+    (change)=payRequestSider($event)>
+</mat-slider>
+
+<br />
+
+Request valid for:  <b>{{minHourVal}}</b> {{minHourType}}  <br />
+<mat-slider
+    id="big_mac"
+    thumbLabel
+    tickInterval="1"
+    min="1"
+    max="{{minHourMax}}"
+    step="1"
+    value="{{minHourDefault}}"
+    (change)=minHourSider($event)>
+</mat-slider>
+
+<span *ngIf="quantityEnabled">
+  <br />
+  Item quantity: <b>{{quantityVal}}</b> </span> <br />
+  <mat-slider
+      *ngIf="quantityEnabled"
+      thumbLabel
+      tickInterval="1"
+      min="1"
+      max="{{quantityMax}}"
+      step="1"
+      value="{{quantityDefault}}"
+      (change)=quantitySlider($event)>
+  </mat-slider>
+</span>

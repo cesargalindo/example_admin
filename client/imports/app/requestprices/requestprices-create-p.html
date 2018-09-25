@@ -1,0 +1,67 @@
+
+<div class="zo1-container">
+
+  <form [formGroup]="requestNewPriceForm" (submit)="addNewRequestPrice()">
+
+    <div id="topdiv">
+      <a [routerLink]="['/items']" mat-raised-button class="top-49">Cancel</a>
+      <button type="submit" mat-raised-button color="primary" class="top-49">Request</button>
+    </div>
+
+    <br />
+    <br />
+    <div class="layout-margin-5-center blue-prim">Request a Price</div>
+
+    <div class="row">
+
+      <div class="zo1-info">
+
+        <mat-card>
+          <h3> {{ item.name }} </h3>
+
+          <div class="width-50">
+            Size: {{item.size}}
+          </div>
+
+          <div class="width-50">
+            <img class="w125" src="{{item.image}}">
+          </div>
+
+          <span class="clear"> &nbsp; </span>
+        </mat-card>
+
+      </div>
+
+    </div>
+
+    <br />
+
+    <div class="row">
+
+      <div class="zo1-submit">
+        <mat-card>
+
+          <p *ngIf="errors.error" class="alert-danger">{{errors.error}}</p>
+
+          <div *ngIf="errors.payRequest_isOverBalance" class="alert-danger">{{msgs.payRequest_isOverBalance}} <br /> </div>
+
+            <request1-slider [quantityEnabled]="enableQuantity" (sliderData)="sliderDataChanged($event)"></request1-slider>
+
+            <div>Add store(s)</div>
+            <input type="text" formControlName="storeIds" *ngIf=false>
+            <search-stores [default_Store]="defaultStore" [store_Error]="store_Error" (storeListEvent)="storeListChanged($event)"></search-stores>
+
+            <span *ngIf="display_spinner"> {{display_spinner}} <mat-spinner></mat-spinner> </span>
+
+        </mat-card>
+
+      </div>
+
+    </div>
+
+  </form>
+
+</div>
+
+<br />
+

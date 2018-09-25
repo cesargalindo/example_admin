@@ -1,0 +1,58 @@
+
+<mat-form-field> 
+  <mat-select placeholder="scrapedStore" [(ngModel)]="scrapedStore" (ngModelChange)="onChangeStore($event)">
+    <mat-option *ngFor="let st of storeChains" [value]="st.value">
+      {{ st.viewValue }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<h4 class="go-right"> Total ITEMS: {{ total }} -- Data is created and stored in duplicates table &nbsp; &nbsp; &nbsp; &nbsp; </h4>
+
+<span class="go-right"> <button mat-raised-button  class="mat-warn" (click)="processSitemItemDuplicates()">Generate Sitem to Item Duplicates for this store</button>  </span> 
+
+<span *ngIf="apolloItemsCount2 | async"></span>
+<span *ngIf="display_spinner"> <mat-spinner></mat-spinner> </span>
+
+<p>
+  <span class="light-blue"> &nbsp; ITEM &nbsp; </span> &nbsp;&nbsp;   <span class="pink"> &nbsp; SITEM &nbsp;  </span> &nbsp; Each ITEM should only be represented by one SITEM, otherwise we don't know which "PRICE" to use. However, latest date overwrites earlier dates.
+</p>
+
+<table>
+  <tr class="layout-margin-5" *ngFor="let it of apolloItems2 | async | paginate: { id: 'itemPager', itemsPerPage: pageSize, currentPage: p, totalItems: total }">
+    <td class="bottom-border" >
+      <span *ngIf="it.dupitems">
+        <span *ngFor="let ditem of it.dupitems; let i = index">
+          <span class="light-blue" *ngIf="!i">
+                <br /> 
+                {{i}} - {{ ditem.itemT.name }}, {{ ditem.itemT.size }} {{ ditem.itemT.unit }}, {{ditem.itemT.category}}
+                <img *ngIf="!imageToggle[ditem.itemT._id]" class="w40" src="{{ditem.itemT.image}}" (click)="imageToggleClick('skip', ditem.itemT._id)">  
+                <img *ngIf="imageToggle[ditem.itemT._id]" class="w250" src="{{ditem.itemT.image}}" (click)="imageToggleClick('skip', ditem.itemT._id)">  
+                <span *ngIf="!ditem.itemT.upc" class="pink">, no upc</span>
+          </span>
+          <span class="pink" *ngIf="!removedItem[it._id] && !removedItem[ditem.scrapeItemT2._id]" >
+              <br /> 
+              {{i}} - {{ ditem.scrapeItemT2.name }}, {{ ditem.scrapeItemT2.size }} {{ ditem.scrapeItemT2.unit }}, {{ditem.scrapeItemT2.category}}
+              <img *ngIf="!imageToggle[it._id] && !imageToggle[ditem.scrapeItemT2._id]" class="w40" src="{{ditem.scrapeItemT2.image}}" (click)="imageToggleClick(it._id, ditem.scrapeItemT2._id)">  
+              <img *ngIf="imageToggle[it._id] && imageToggle[ditem.scrapeItemT2._id]" class="w250" src="{{ditem.scrapeItemT2.image}}" (click)="imageToggleClick(it._id, ditem.scrapeItemT2._id)">  
+              {{ditem.scrapeItemT2.description}}   
+              <button mat-raised-button id="small-button" (click)="matchItems(ditem.scrapeItemT2)">Match</button>
+              <button mat-raised-button color="warn" id="small-button" (click)="removeItem(it._id, ditem.scrapeItemT2._id, ditem.itemT._id)">Remove</button>
+             {{ ditem.scrapeItemT2.updatedAt| displayFormatDate }}
+          </span>
+        </span>
+      </span>
+    </td>
+  </tr>
+</table>
+
+<br />
+
+<div class="is-text-centered ">
+  <div class="spinner" [ngClass]="{ 'hidden': !loading }">.....</div>
+  <pagination-controls (pageChange)="getItems($event)" id="itemPager"></pagination-controls>
+</div>
+
+<hr />
+
+<dialog-sitem>load dialog-sitem by clicking</dialog-sitem>

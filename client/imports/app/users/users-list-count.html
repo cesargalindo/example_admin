@@ -1,0 +1,124 @@
+<span *ngIf="apolloUsersCount1 | async | select: 'apUsersCount'"></span>
+<span *ngIf="apolloUsers1 | async | select: 'apUsers'"></span>
+
+<div layout="row" layout-wrap layout-align="start start" class="top-admin-controls">
+
+  <div flex="15">
+    <form [formGroup]="termForm">
+      <input
+          formControlName="value"
+          type="text"
+          placeholder="email ..."
+          class="input-width-80"
+          [(ngModel)]=clearField >
+    </form>
+  </div>
+
+  <div flex="15">
+    <form [formGroup]="cellVerifiedForm">
+      <mat-select  placeholder="Cell Verified" formControlName="value" [(ngModel)]="cellVerifiedValue" >
+        <mat-option *ngFor="let item of cellVerifiedList" [value]="item.value">{{item.viewValue}}</mat-option>
+      </mat-select>
+    </form>
+  </div>
+
+  <div flex="15">
+    <form [formGroup]="emailVerifiedForm">
+      <mat-select  placeholder="Email Verified" formControlName="value" [(ngModel)]="emailVerifiedValue" >
+        <mat-option *ngFor="let item of emailVerifiedList" [value]="item.value">{{item.viewValue}}</mat-option>
+      </mat-select>
+    </form>
+  </div>
+
+  <div flex="15">
+    <form [formGroup]="requestForm">
+      <mat-select  placeholder="Request" formControlName="value" [(ngModel)]="requestValue" >
+        <mat-option *ngFor="let item of requestList" [value]="item.value">{{item.viewValue}}</mat-option>
+      </mat-select>
+    </form>
+  </div>
+
+  <div flex="15">
+    <form [formGroup]="submitForm">
+      <mat-select  placeholder="Submit" formControlName="value" [(ngModel)]="submitValue" >
+        <mat-option *ngFor="let item of submitList" [value]="item.value">{{item.viewValue}}</mat-option>
+      </mat-select>
+    </form>
+  </div>
+
+  <div flex="15">
+    <form [formGroup]="withdrawForm">
+      <mat-select  placeholder="Withdraw" formControlName="value" [(ngModel)]="withdrawValue" >
+        <mat-option *ngFor="let item of withdrawList" [value]="item.value">{{item.viewValue}}</mat-option>
+      </mat-select>
+    </form>
+  </div>
+
+  <div flex="10">
+    <button mat-raised-button color="primary" (click)="applyFilter()"> Search </button>
+  </div>
+</div>
+
+<hr>
+
+<div flex="80">
+  <div *ngFor="let user of usersList  | async">
+    {{user.emails[0].address}}
+  </div>
+</div>
+
+<div flex="20">
+  <a mat-raised-button color="primary" [routerLink]="['/users-transfer']">Transfer User Data</a>
+</div>
+
+<hr>
+
+<table>
+  <tr>
+    <th>Firstname</th>
+    <th>Lastname</th>
+    <th>Cell</th>
+    <th>Email</th>
+    <th>Count</th>
+    <th>Cell<br />Verified</th>
+    <th>Email<br />Verified</th>
+    <th>Roles</th>
+    <th>Request</th>
+    <th>Submit</th>
+    <th>Widthdraw</th>
+    <th> </th>
+
+  </tr>
+
+  <tr *ngFor="let user of usersListArray | paginate: { id: 'allUsers', itemsPerPage: pageSize, currentPage: p, totalItems: total }">
+    <td> <span *ngIf="user.userProfile"> {{user.userProfile.firstname}} </span> </td>
+    <td> <span *ngIf="user.userProfile">  {{user.userProfile.lastname}} </span> </td>
+    <td> {{user.username}} </td>
+    <td> {{user.emails[0].address}} </td>
+    <td> {{userItemsCount[user._id]}} </td>
+    <td> {{user.cellVerified}} </td>
+    <td> {{user.emails[0].verified}} </td>
+
+    <td *ngIf="user.roles">
+      <span *ngFor="let role of user.roles">
+        {{role.role}} &nbsp;
+      </span>
+    </td>
+
+    <td *ngIf="!user.roles">
+      --
+    </td>
+
+    <td> {{user.requestStatus | displayRequestStatus}} </td>
+    <td> {{user.submitStatus | displaySubmitStatus}} </td>
+    <td> {{user.withdrawalStatus | displayWithdrawalStatus}} </td>
+    <td> <a (click)="editUser(user)"> edit </a> &nbsp; </td>
+
+  </tr>
+
+</table>
+
+
+<div class="center-stuff">
+  <pagination-controls (pageChange)="getPageInfo($event)" id="allUsers"></pagination-controls>
+</div>

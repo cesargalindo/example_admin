@@ -1,0 +1,8 @@
+<div>
+  <a href="#" (click)="toggle()" class="c-title">
+    {{ isOpen ? '&#9660;' : '&#9654;'}} {{labelName}}<span *ngIf="labelName2"><br /> &nbsp; &nbsp; {{labelName2}}</span>
+  </a>
+  <div [hidden]="!isOpen" class="content">
+    <ng-content></ng-content>
+  </div>
+</div>

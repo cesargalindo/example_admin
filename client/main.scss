@@ -1,0 +1,750 @@
+@import '../node_modules/@angular/material/_theming';
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue.
+$candy-app-primary: mat-palette($mat-indigo);
+$candy-app-accent:  mat-palette($mat-pink, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$candy-app-warn:    mat-palette($mat-red);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-app-warn);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($candy-app-theme);
+
+@import "./imports/material-layout";
+
+// ####################################### replace here and below ############################################
+
+
+pagm-map {
+  height: 300px;
+}
+
+.header-fab.top-prices {
+  background-color: #b9307c;
+}
+
+.header-fab.request-prices {
+  background-color: #4dc2f7;
+}
+
+.fill-remaining-space {
+  flex: 1 1 auto;
+}
+
+body {
+  background-color: #f8f8f8;
+  font-family: 'Muli', sans-serif;
+  padding: 0;
+  margin: 0;
+}
+
+.sebm-google-map-container {
+  height: 300px;
+}
+
+//makes fullpage instead of cutting off search results
+.map-search-results {
+  height:100% !important;
+}
+
+/** Fab buttons colors **/
+items-submitted .mat-mini-fab,
+rq-active .mat-mini-fab,
+sp-submitted .mat-mini-fab {
+  background-color: #f0dd38;
+}
+rq-received .mat-mini-fab {
+  background-color: purple;
+}
+rq-closed .mat-mini-fab,
+sp-closed .mat-mini-fab {
+  background-color: #6c6c6c;
+}
+items-rejected .mat-mini-fab,
+rq-rejected .mat-mini-fab,
+sp-rejected .mat-mini-fab {
+  background-color: #d50000;
+}
+
+/***************  Custom CSS ***************/
+.font-12 {
+  font-size: 12px;
+}
+.font-14 {
+  font-size: 14px;
+}
+.font-16 {
+  font-size: 16px;
+}
+.font-18b {
+  font-size: 18px;
+  font-weight: bold;
+}
+.font-30.mat-icon {
+  font-size: 30px;
+}
+
+.red {
+  color: #d50000;
+}
+.green {
+  color: #06791f;
+}
+.blue-prim {
+  color: #03a9f4;
+}
+.alert-danger {
+  color: #f44336;
+}
+.grey-12 {
+  color: #6c6c6c;
+  font-size: 12px;
+}
+.grey {
+  color: #6c6c6c;
+}
+.blue-border {
+  border: 1px solid #03aff9;  
+}
+.line-through {
+  text-decoration: line-through;
+}
+.underline {
+  text-decoration: underline;
+}
+img.w100 {
+  width: 100px;
+}
+img.w125 {
+  width: 125px;
+}
+.file-button-width {
+  width: 100px;
+}
+.search-store-address {
+  width: 350px;
+}
+
+.ss1-item {
+  line-height: 25px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.ss1-item:hover {
+/*  background-color: #393939; */
+  background-color: #929292;
+  color: #FFFFFF;
+}
+
+/* Default Icon Sizes and styles according to Material Design best practices
+ * These classes may be applied to html elements: 
+ * <i class="material-icons md-dark md-18">face</i>
+ * Or used with the Angular2 <mat-icon> directive:
+ * <mat-icon class="md-18 md-dark">face</mat-icon> */
+ 
+.material-icons.md-18 { font-size: 18px; }
+.material-icons.md-24 { font-size: 24px; }
+.material-icons.md-36 { font-size: 36px; }
+.material-icons.md-48 { font-size: 48px; }
+
+/* Rules for using icons as black on a light background. */
+.material-icons.md-dark { color: rgba(0, 0, 0, 0.54); }
+.material-icons.md-dark.md-inactive { color: rgba(0, 0, 0, 0.26); }
+.material-icons.md-dark.md-active { color: #03a9f4 }
+
+/* Rules for using icons as white on a dark background. */
+.material-icons.md-light { color: rgba(255, 255, 255, 1); }
+.material-icons.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }
+
+/* Map Overlay FABs */
+.toggle-map {
+  color: #008fe6;
+  font-size: 13px;
+  float: right;
+  margin-top: -18px;
+  padding-right: 2px;
+}
+
+.map-overlay-container {
+  position:absolute;
+  z-index:99;
+  margin-top:-60px;
+  right:45px;
+  width:40px;
+  height:100px;
+
+  .mat-mini-fab {
+    margin-bottom: 10px !important;
+  }
+}
+
+reactive-map .map-search-results {
+  margin-top: -18px;
+}
+.places-autocomplete-input {
+  width: 99% !important;
+  height: 30px !important;
+  padding: 5px 5px 5px 5px;
+}
+.padding-icons1 {
+  padding-top: 5px;
+}
+.padding-icons2 {
+  padding-top: 5px;
+  margin-bottom: -7px;
+}
+.padding-icons3 {
+  padding-top: 5px;
+  padding-left: 20px;
+}
+
+/* Overrides */
+mat-icon.filter24 {
+    position: absolute !important;
+    margin-top: -25px;
+    margin-left: 80%;
+}
+mat-icon.search24 {
+  margin: 1px 0px 0px 0px;
+  background-color: #03a9f4;
+  color: #FFFFFF;
+  padding-left: 4px;
+  padding-right: 2px;
+  padding-top: 2px;
+  opacity: 0.5;
+  font-size: 30px;
+  height: 30px;
+  width: 30px;
+}
+mat-icon.search24:hover {
+  opacity: 1;
+}
+
+
+mat-icon.fisheye {
+  height: 46px;
+  width: 46px;
+}
+
+.rank {
+  margin-right: -31px;
+  position: initial;
+}
+
+.md-primary.fb-login-button {
+  background-color: #3c5a99;
+  width: 220px;
+}
+.fa {
+  background-color: #FFFFFF;
+  color: #3c5a99;
+  padding: 6px;
+}
+
+elasticsearch-ss1 input {
+  height: 23px;
+}
+
+elasticsearch-ss1 .ss-results {
+//  border: 2px solid #03aff9 !important;
+//  border-radius: 16px;
+  font-size: 12px;
+  width: 98%;
+  margin-left: 2px;
+}
+
+search-settings a.c-title {
+  font-size: 14px;
+}
+
+.search-icon {
+  padding-left: 9px;
+}
+
+/**************** Override/alter Material CSS ***********/
+landing-page .mat-card {
+  padding: 12px;
+  width: 100%;
+}
+
+mat-spinner.thumb-spinner {
+  height: 55px;
+  width: 55px;
+}
+
+#small-button {
+  line-height: 22px;
+  min-width: 50px;
+  padding: 0 11px;
+}
+
+mat-slider {
+  width: 100%;
+}
+.top-sub-div {
+  background-color: #03a9f4;
+  padding-top: 25px;
+  padding-left: 10%;
+  padding-bottom: 15px;
+}
+
+.top-sub-div tr {
+  height: 30px;
+}
+.top-sub-text1 {
+  color: #FFFFFF;
+  width: 75%;
+}
+.top-sub-text2 {
+  color: #FFFFFF;
+  text-align: right;
+  width: 20%;
+}
+.mat-tab-link.active-link {
+  // color: #000000;
+  color: #03a9f4;
+  font-weight: bold;
+}
+
+.top-49.mat-raised-button {
+  width: 49%;
+}
+#topdiv {
+  position: fixed;
+  top: 0px;
+  z-index: 2;
+  width: 100%;
+}
+
+.req-purchase.mat-raised-button {
+  height: 66px;
+  width: 40%;
+}
+.req-purchase .text-height {
+  height: 26px;
+  margin-left: -5px;
+}
+
+.operator-input .mat-select-trigger {
+  min-width: 250px;
+  margin-bottom: 15px;
+}
+
+.mat-slider-horizontal {
+  height: 24px;
+  margin-top: 5px;
+  margin-bottom: 20px;
+}
+
+.display-none,
+submit-page .dull-accent {
+  display: none;
+}
+
+.active-link {
+  border-bottom: 3px solid #008fe6;
+}
+
+
+/*************** custom CSS grabbed from Socially tutorial ***********/
+.zo1-container {
+  display: table;
+}
+
+.zo1 mat-card {
+  margin: 20px;
+}
+
+.zo1-container .row {
+  display: table-row;
+  width: 100%;
+}
+
+.zo1-container .row .zo1-info,
+.zo1-container .row .zo1-submit {
+  display: table-cell;
+  width: 50%;
+  vertical-align: top;
+}
+
+/***************  Flex, positioning related CSS ***************/
+.mat-toolbar.mat-primary.header-toolbar {
+  padding: 0px 4px;
+}
+
+.left-padding-20 {
+  padding-left: 20px;
+}
+.left-padding-10 {
+  padding-left: 10px;
+}
+.right-padding-10 {
+  padding-right: 10px;
+}
+
+.page-padding-3 {
+  padding: 3%;
+}
+.bottom-padding-5 {
+  padding-bottom: 5px;
+}
+
+mat-card.margin-3 {
+  margin: 3%;
+  padding: 0;
+}
+
+.margin-bottom-15 {
+  margin-bottom: 15px;
+}
+
+.card-body {
+  padding: 15px;
+}
+
+.height-16 {
+  height: 16px;
+}
+.height-17 {
+  height: 17px;
+}
+.height-25 {
+  height: 25px;
+}
+.height-42 {
+  height: 42px;
+}
+
+.input-width-18 {
+  width: 18%;
+}
+.input-width-20 {
+  width: 20%;
+}
+.input-width-50 {
+  width: 50%;
+}
+.input-width-80 {
+  width: 80%;
+}
+.input-width-90 {
+  width: 90%;
+}
+.input-width-95 {
+  width: 95%;
+}
+
+.width-100 {
+  width: 100%;
+}
+.width-90 {
+  width: 90%;
+  float: left;
+}
+.width-85 {
+  width: 85%;
+  float: left;
+}
+.width-80 {
+  width: 80%;
+  float: left;
+}
+.width-75 {
+  width: 75%;
+  float: left;
+}
+.width-70 {
+  width: 70%;
+  float: left;
+}
+.width-65 {
+  width: 65%;
+  float: left;
+}
+.width-60 {
+  width: 60%;
+  float: left;
+}
+.width-55 {
+  width: 55%;
+  float: left;
+}
+.width-50 {
+  width: 50%;
+  float: left;
+}
+.width-45 {
+  width: 45%;
+  float: left;
+}
+.width-40 {
+  width: 40%;
+  float: left;
+}
+.width-35 {
+  width: 35%;
+  float: left;
+}
+.width-33 {
+  width: 33%;
+  float: left;
+}
+.width-30 {
+  width: 30%;
+  float: left;
+}
+.width-25 {
+  width: 25%;
+  float: left;
+}
+.width-20 {
+  width: 20%;
+  float: left;
+}
+.width-15 {
+  width: 15%;
+  float: left;
+}
+.width-10 {
+  width: 10%;
+  float: left;
+}
+.width-9 {
+  width: 9%;
+  float: left;
+}
+.width-3 {
+  width: 3%;
+  float: left;
+}
+
+.go-right {
+  float: right;
+  padding-right: 10px;
+}
+.go-left {
+  float: left;
+}
+.clear {
+  clear: both;
+}
+.text-align-right {
+  text-align: right;
+}
+
+/** flex stuff **/
+.center-stuff {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.flex-wrapper {
+  display: flex;
+  -webkit-flex-flow: row wrap;
+  flex-flow: row wrap;
+}
+.flex-wrapper-column {
+  display: flex;
+  -webkit-flex-flow: column wrap;
+  flex-flow: column wrap;
+}
+
+/** layout css **/
+.layout-margin-5-2 {
+  margin: 5px 5px 5px 0px;
+  padding-top: 5px;
+  padding-bottom: 2px;
+}
+.layout-margin-5 {
+  margin: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.layout-margin-5-center {
+  margin: 5px;
+  text-align: center;
+}
+.layout-last-right {
+  text-align: right;
+  padding-right: 5px;
+}
+.layout-padding-right{
+  border-right: solid;
+  border-color: #FFFFFF;
+}
+.layout-color-row-odd  {
+  background-color: #eceea5;
+}
+.layout-color-row-even  {
+  background-color: rgba(172, 218, 241, 0.49);
+}
+
+.min-height-1 {
+  min-height: 25px;
+}
+
+.small-height {
+  height: 3px;
+}
+.sm-med-height {
+  height: 57px;
+}
+.med-height {
+  height: 96px;
+}
+
+/* snackbar - action */
+.md-simple-snackbar-action {
+  color: #ffeb3b !important;
+}
+
+/* topnav */
+.req-count-container {
+  position: relative;
+  width: 50px;
+  padding-left: 5px;
+  margin-top: -35px;
+}
+.req-count {
+  position: absolute;
+  background: #ffffff;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+/* sidenav */
+.sidenav {
+  padding: 10px 40px 10px 20px;
+  min-width: 160px;
+  background-color: #03a9f4;
+}
+
+a.mat-menu-item {
+  color: #FFFFFF;
+  text-decoration: none;
+}
+
+@media screen and (max-width: 480px)  {
+  mat-toolbar.md-primary {
+    padding-right: 0px;
+  }
+}
+
+
+/* lists and list items */
+mat-list
+{
+  $item-text-color: "black";
+  $accent-color: "green";
+  $accent-color-alt: "red";
+  $selected-background-color: "#cccccc";
+
+  mat-list-item {
+    .text-header {
+      font-size:16px !important;
+      font-weight:bold !important;
+    }
+    .text-distance {
+      color: $accent-color-alt !important;
+    }
+    .text-price {
+      font-weight:bold !important;
+      color: $accent-color !important;
+    }
+
+    /* split title / distance for geographic search results */
+    p.geo-header-row {
+      span.title {
+        @extend .text-header;
+        display:block !important;
+        width:80% !important;
+        float:left !important;
+        overflow:hidden !important;
+      }
+      span.distance {
+        @extend .text-distance;
+        display:block !important;
+        width:20% !important;
+        float:right !important;
+        overflow:hidden !important;
+        margin:auto;
+      }
+    }
+  }
+
+}
+
+
+/* Style md-dialogs */
+.cdk-overlay-container .mat-dialog-container {
+  max-width: none;
+}
+.dialog-title-text {
+  font-size: 18px;
+  font-weight: bold;
+  width:88%;
+}
+.dialog-close-button {
+  float: right;
+}
+
+.mat-dialog-content .mat-list .mat-list-item .mat-list-item-content,
+.mat-dialog-content .mat-list .mat-list-item .mat-list-text {
+  padding: 0;
+}
+.padding-dialog1 {
+  padding-left: 10px;
+  padding-top: 5px;
+}
+.dialog-quantity .mat-select-trigger {
+  width: 40px;
+  min-width: 0;
+}
+
+.dialog-units .mat-select-trigger {
+  min-width: 130px;
+}
+
+
+/** Tabs **/
+.mat-tab-label-active > a {
+  font-size: 16px;
+}
+
+
+/** TEST **/
+.mat-card-header > .mat-card-header-text {
+  margin: 0 2px 0 8px;
+}
+
+.subtitle-2 {
+  display: block;
+  color: rgba(0, 0, 0, 0.54);
+  font-size: 14px;
+}
+
+.subtitle-2b {
+  color: rgba(0, 0, 0, 0.54);
+  font-size: 14px;
+  float: left;
+}
+
+.store-item-padding {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}

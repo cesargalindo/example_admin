@@ -1,0 +1,61 @@
+<nav mat-tab-nav-bar>
+  <a mat-tab-link [routerLink]="['/rp-schedule']"
+     routerLinkActive="active-link"
+     [routerLinkActiveOptions]="{exact: true}">
+    Scheduled Request
+  </a>
+
+  <a mat-tab-link [routerLink]="['/myrequestprices']"
+     routerLinkActive="active-link"
+     [routerLinkActiveOptions]="{exact: true}">
+    Requests
+  </a>
+</nav>
+
+<p *ngIf="errors.error" class="alert-danger">{{errors.error}}</p>
+<p *ngIf="errors.success" class="green">{{errors.success}}</p>
+
+<table>
+  <tr>
+    <th>Scheduled</th>
+    <th>Status</th>
+    <th>Name</th>
+    <th>Store</th>
+    <th>Pay Request</th>
+    <th>Expires</th>
+    <th>Actions</th>
+  </tr>
+
+  <tr *ngFor="let rp of dataArray | paginate: { id: 'rpPager', itemsPerPage: pageSize, currentPage: p, totalItems: total }">
+
+    <td> {{rp.scheduled | displayFormatDate}} </td>
+
+    <td>
+      <span *ngIf="rp.status == 1" class="green"> {{rp.status | displayScheduledStatus}} </span>
+      <span *ngIf="rp.status != 1"> {{rp.status | displayScheduledStatus}} </span>
+    </td>
+
+    <td> {{rp.itemName}} <br> {{rp.itemSize}},   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   Qty: {{ rp.quantity }} </td>
+    <td> {{rp.storeName}} <br> {{rp.storeAddress}}  </td>
+
+    <td> {{rp.payRequest | currency:'USD':true:'1.2-2'}} </td>
+
+    <td> {{rp.expiresAt }} hrs </td>
+
+    <td>
+      <span *ngIf="rp.status == 0">
+      <a  mat-raised-button color="primary" id="small-button" (click)="editRequest(rp)">Edit</a>
+      <a  mat-raised-button  id="small-button" (click)="cancelScheduledRequest(rp)">Cancel</a>
+      </span>
+    </td>
+
+
+  </tr>
+
+  <div class="center-stuff">
+    <div class="spinner" [ngClass]="{ 'hidden': !loading }">.....</div>
+    <pagination-controls (pageChange)="getPageX($event)" id="rpPager"></pagination-controls>
+
+  </div>
+
+</table>

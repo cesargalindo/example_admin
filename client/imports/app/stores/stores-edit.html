@@ -1,0 +1,88 @@
+<span *ngIf="asyncStore | async"></span>
+
+<span *ngIf="storeId">
+  <h3>Edit Store</h3>
+</span>
+
+<span *ngIf="!storeId">
+  <h3>Add Store</h3>
+</span>
+
+<p *ngIf="error" class="alert-danger">{{error}}</p>
+<p *ngIf="success" class="green">{{success}}</p>
+
+<form [formGroup]="editStoreForm" >
+
+  <label>Store Name</label>
+  <input type="text" formControlName="name"><br>
+
+  <label>Address:</label>
+  <input type="text"  formControlName="address"><br>
+
+  <label>City:</label>
+  <input type="text"  formControlName="city"><br>
+
+  <label>State:</label>
+  <select [(ngModel)]="stateValue" formControlName="state"  >
+    <option *ngFor="let state of states" [value]="state.val">{{state.name}}</option>
+  </select>
+  --> <span>{{stateValue}}</span> <br>
+
+  <label>Zip:</label>
+  <input type="text"  formControlName="zip"><br>
+
+  <label>Phone Number:</label>
+  <input type="text"  formControlName="phoneNumber"><br>
+
+  <label>Website:</label>
+  <input type="text"  formControlName="website"><br>
+
+  <label>Hours:</label>
+  <input type="text"  formControlName="hours"><br>
+
+  <span *ngIf="!manualCoordinates">
+    <label>Lat:</label>
+    <input type="text"  formControlName="lat"><br>
+
+    <label>Lng:</label>
+    <input type="text"  formControlName="lng"><br>
+  </span>
+
+  <label>Public</label>
+  <input type="checkbox" formControlName="public" checked="checked" /><br />
+
+  <label>chainName:</label>
+  <input type="text"  formControlName="chainName"><br>
+
+  <label>chainLocationId:</label>
+  <input type="text"  formControlName="chainLocationId"><br>
+
+  <label>Image Url:</label>
+  <input type="text" class="input-width-80" formControlName="image"><br>
+
+  <br>
+  <span *ngIf="display_spinner"> {{display_spinner}} <mat-spinner></mat-spinner> </span>
+  <br>
+
+  <span *ngIf="storeId">
+    <button  (click)="EditStore()" >Update</button>
+  </span>
+
+  <span *ngIf="!storeId">
+    <button  (click)="AddStore()" >Add Store</button>
+  </span>
+
+  <a [routerLink]="['/stores']">Back</a>
+
+  <br><br>
+  <label>Apply manually entered coordinates </label>
+  <input type="checkbox" formControlName="manualCoordinates" (change)="clickedManualCoords()"  checked="checked" />
+
+</form>
+
+
+
+
+
+
+

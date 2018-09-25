@@ -1,0 +1,142 @@
+import {Component, OnInit, OnDestroy, NgZone, Input} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import { AgmCoreModule } from '@agm/core';
+import {SocketClientService} from '../../services/SocketClientService';
+import {LocationTrackingService} from '../../services/LocationTrackingService';
+
+
+@Component({
+    selector: 'reactive-map',
+    styles: [`
+        .sebm-google-map-container {
+            height: 300px;
+        }
+    `],
+    template: `
+        <agm-map
+                [latitude]="myLocation.latitude"
+                [longitude]="myLocation.longitude"
+                [zoom]="zoom"
+                [disableDefaultUI]="false"
+                [zoomControl]="true">
+
+
+
+            <agm-map-circle [latitude]="myLocation.latitude" [longitude]="myLocation.longitude"
+                                    [radius]="myLocation.accuracy"
+                                    [fillColor]="'#0000FF'"
+                                    [circleDraggable]="false"
+                                    [editable]="true">
+            </agm-map-circle>
+            <agm-marker *ngFor="let result of searchResults" [latitude]="result.store.location.coordinates[1]" [longitude]="result.store.location.coordinates[0]"></agm-marker>
+
+        </agm-map>
+
+        <div class="map-search-results">
+]            <mat-list>
+                <mat-list-item *ngFor="let result of searchResults">
+                    <h3 mat-line> {{result.store.name}} </h3>
+                    <p mat-line>
+                        <span> ${{result.payoutSum / 100}} available</span>
+                        <span class="item-count"> - {{result.payoutCount}} requests</span>
+                    </p>
+                    <p mat-line><span>{{result.store.address}} km from you</span></p>
+                    <p mat-line><span>{{result.store.distanceFromUser}} km from you</span></p>
+                </mat-list-item>
+            </mat-list>
+]
+]        </div>
+        <div class="debug_output_console">
+            <pre>{{debugOutput}}</pre>
+        </div>
+    `})
+export class ReactiveMapComponent implements Component, OnInit {
+    @Input() search_radius: number = 300;
+    @Input() dev_logging: boolean = false;
+    @Input() query_name: string = 'top-payouts-user';
+
+    constructor(public _socketService: SocketClientService,
+                public _locationTrackingService: LocationTrackingService,
+                public _ngZone: NgZone) {}
+
+    public myLocation:any = this._locationTrackingService.lastKnowPosition;
+    public debugOutput:string = "";
+    public searchResults:  any = [];
+
+    // google maps zoom level
+    zoom: number = 10;
+
+
+    /*
+    clickedMarker(label: string, index: number) {
+        console.log(`clicked the marker: ${label || index}`)
+    }
+
+    mapClicked($event: MouseEvent) {
+        this.markers.push({
+            latitude: $event.coords.lat,
+            longitude: $event.coords.lng
+        });
+    }
+
+    markerDragEnd(m: marker, $event: MouseEvent) {
+        console.log('dragEnd', m, $event);
+    }
+
+    markers: marker[] = [
+        {
+            lat: 51.673858,
+            lng: 7.815982,
+            label: 'A',
+            draggable: true
+        },
+        {
+            lat: 51.373858,
+            lng: 7.215982,
+            label: 'B',
+            draggable: false
+        },
+        {
+            lat: 51.723858,
+            lng: 7.895982,
+            label: 'C',
+            draggable: true
+        }
+    ]
+*/
+    ngOnInit() {
+        let reactiveDeviceLocation = this._locationTrackingService.getReactiveDeviceLocation();
+        reactiveDeviceLocation.subscribe(position => {
+            if (position && position.latitude) {
+                this.myLocation = position;
+                this.myLocation.search_radius = this.search_radius;
+                this._socketService.send(this.query_name, this.myLocation);
+            }
+        });
+        let socketDataStream = this._socketService.getFilteredStream("top-payouts-user")
+            .subscribe((response) => {
+                //console.warn("---Received data back: "+JSON.stringify(response.payload));
+                this.searchResults = response.payload;
+                if (this.dev_logging) {
+                    this.debugOutput = JSON.stringify(this.searchResults, null, 2);
+                }
+            });
+
+        /*
+         this.connection = this.socketService.getInputStream().subscribe(message => {
+         console.log(JSON.stringify(message));
+         this.payouts.push(message.payload);
+         });
+
+         this.socketService.send('all', {}); */
+    }
+
+}
+// just an interface for type safety.
+interface marker {
+    lat: number;
+    lng: number;
+    label?: string;
+    draggable: boolean;
+    id: string;
+}

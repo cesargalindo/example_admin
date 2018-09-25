@@ -1,0 +1,5 @@
+/* Copyright (C) ZoJab, Inc - All Rights Reserved
+ * Unauthorized copying of any files in this project, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Written by Cesar Galindo <cesar@zojab.com>, December 2016
+ */

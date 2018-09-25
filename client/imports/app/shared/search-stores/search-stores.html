@@ -1,0 +1,50 @@
+
+<div *ngIf="store_Error" class="alert alert-danger"> A store is required  </div>
+
+<div *ngFor="let st of storeList">
+  <span *ngIf="hideme[st.address]">
+
+    <button color="warn" type="button" mat-mini-fab (click)="removeSelectedStore(st); hideme[st.address] = !hideme[st.address]" >
+      <mat-icon>remove</mat-icon>
+    </button>
+    {{st.name}} - {{st.address}}
+
+  </span>
+</div>
+
+<br>
+
+  <div class="input-field col s12">
+    <form [formGroup]="singleStoreForm">
+
+      <mat-form-field class="input-width-95">
+        <input
+            matInput
+            dividerColor="primary"
+            [(ngModel)]="clearStoreField"
+            formControlName="value"
+            placeholder={{paceHolderStoreName}}>
+      </mat-form-field>
+
+    </form>
+  </div>
+
+  <div class="suggestions" >
+    <div *ngFor="let store of stores">
+
+      <span *ngIf="!hideme[store.address]">
+
+        <button color="primary" type="button" mat-mini-fab (click)="addSelectedStore(store); hideme[store.address] = true" >
+          <mat-icon>add</mat-icon>
+        </button>
+
+        {{store.name}} - {{store.address}}
+
+      </span>
+    </div>
+  </div>
+
+  <br>
+
+
+

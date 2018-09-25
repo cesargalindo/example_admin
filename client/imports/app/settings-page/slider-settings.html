@@ -1,0 +1,137 @@
+<form [formGroup]="sliderSettingsForm" (submit)="saveSettingsInfo()" >
+
+  <div class="page-padding-3">
+
+    <h4> Default Store (only save first store)</h4>
+    <search-stores  [default_Store]="defaultStore" [store_Error]="store_Error"  (storeListEvent)="storeListChanged($event)"></search-stores>
+
+    <h4> Schedule Start Date</h4>
+    <div layout="row" layout-wrap layout-align="start start">
+      <div flex="100">
+          <mat-form-field>
+            <input
+              matInput
+              [matDatepicker]="picker"
+              formControlName="dateValue"
+              [min]="minDate"
+              [max]="maxDate"
+              placeholder="Choose a date">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+      </div>
+
+    </div>
+
+
+    <div class="row">
+      <p *ngIf="display_spinner"> <mat-spinner class="thumb-spinner"></mat-spinner></p>
+
+      <div *ngIf="error" layout="row" layout-padding layout-wrap layout-margin>
+        <p class="font-18b alert-danger">{{ error }}</p>
+      </div>
+
+      <div *ngIf="successMsg" layout="row" layout-padding layout-wrap layout-margin>
+        <p class="font-18b green">{{ successMsg }}</p>
+      </div>
+    </div>
+
+
+    <span *ngIf="isAdmin">
+      <h4>Default Slider Settings</h4>
+      <h5>These default values are applied when requesting a new price.</h5>
+
+      <div class="row">
+        <div class="zo1-submit">
+          <mat-card>
+
+              Set default duration of price request: <br />
+              <mat-radio-group formControlName="minHourValue">
+                <mat-radio-button *ngFor="let mhValue of minHourList" [value]="mhValue">
+                  {{mhValue}} &nbsp; &nbsp;
+                </mat-radio-button>
+              </mat-radio-group>
+
+              <br /> <br />
+
+              <span>Valid for <b>{{minHourVal}}</b> {{sliderSettingsForm.value.minHourValue}} </span>
+              <br />
+              <mat-slider
+                  id="big_mac"
+                  thumbLabel
+                  tickInterval="1"
+                  min="1"
+                  max="{{minHourMax}}"
+                  step="1"
+                  value="{{minHourDefault}}"
+                  (change)=minHourSider($event)>
+              </mat-slider>
+
+
+              <br />
+
+
+              Set default payout of price request: <br /><br />
+              Maximum Slider Limit: <br />
+              <mat-radio-group formControlName="payRequestValue">
+                <mat-radio-button *ngFor="let mhValue of payRequestList" [value]="mhValue">
+                  ${{mhValue}}&nbsp;
+                </mat-radio-button>
+              </mat-radio-group>
+
+              <br /> <br />
+
+              <span>Default payout: <b>{{payRequestVal | currency:'USD':true:'1.2-2'}}</b> </span>
+              <br />
+              <mat-slider
+                  thumbLabel
+                  tickInterval="1"
+                  min="{{payRequestStep}}"
+                  max="{{payRequestMax}}"
+                  step="{{payRequestStep}}"
+                  value="{{payRequestDefault | number:'1.2-2'}}"
+                  (change)=payRequestSider($event)>
+              </mat-slider>
+
+              <br />
+
+
+              Set default quanity of price request: <br />
+              <span class="font-14 grey"> For example, if you want the price on 2 loafs of bread, quantity = 2 </span> <br /> <br />
+              Maximum slider limit: <br />
+              <mat-radio-group formControlName="quantityValue">
+                <mat-radio-button *ngFor="let mhValue of quantityList" [value]="mhValue">
+                  {{mhValue}} &nbsp; &nbsp;
+                </mat-radio-button>
+              </mat-radio-group>
+
+              <br /> <br />
+
+              <span>Default quantity: <b>{{quantityVal}}</b> </span> <br />
+              <br />
+              <mat-slider
+                  thumbLabel
+                  tickInterval="1"
+                  min="1"
+                  max="{{quantityMax}}"
+                  step="1"
+                  value="{{quantityDefault}}"
+                  (change)=quantitySlider($event)>
+              </mat-slider>
+
+          </mat-card>
+        </div>
+      </div>
+    </span>
+
+    <br />
+    
+    <div>
+      <a [routerLink]="['/items']" mat-raised-button class="top-49">Cancel</a>
+      <button type="submit" mat-raised-button color="primary" class="top-49">Save</button>
+    </div>
+
+  </div>
+
+</form>
+

@@ -1,0 +1,112 @@
+<mat-card class="margin-3">
+
+  <mat-toolbar color="primary" class="margin-bottom-15">
+      Sign up
+  </mat-toolbar>
+
+  <div class="card-body">
+
+    <br />
+
+    <button mat-raised-button  class="md-primary fb-login-button" (click)="loginWithFacebook()">
+      <i class="fa fa-facebook"></i> Sign in with Facebook
+    </button>
+
+    <br />
+    <br />
+
+    <form [formGroup]="signUpForm" (submit)="signUp()">
+      <mat-form-field class="input-width-95">
+        <input
+            matInput
+            formControlName="cellphone"
+            dividerColor="primary"
+            type="tel"
+            required
+            placeholder="Cellphone number"
+            (keyup)="cellphoneFormat(signUpForm.value.cellphone)"
+            (blur)="cellphoneValidator(signUpForm.value.cellphone) == true ? cellphoneIsInvalid = false : cellphoneIsInvalid = true" >
+      </mat-form-field>
+      <div *ngIf="cellphoneIsInvalid" class="alert alert-sm alert-danger">Cellphone number must be 10 digits</div>
+
+
+      <mat-form-field class="input-width-95">
+        <input
+            matInput
+            formControlName="email"
+            dividerColor="primary"
+            type="email"
+            maxlength="50"
+            required
+            placeholder="Email"
+            (blur)="emailValidator(signUpForm.value.email) == true ? emailIsInvalid = false : emailIsInvalid= true" >
+      </mat-form-field>
+      <div *ngIf="emailIsInvalid" class="alert-danger">Email address is invalid</div>
+
+
+      <mat-form-field class="input-width-95">
+        <input
+            matInput
+            formControlName="password"
+            dividerColor="primary"
+            type="password"
+            maxlength="40"
+            required
+            placeholder="Password"
+            (blur)="passwordValidator(signUpForm.value.password) == true ? passwordIsInvalid = false : passwordIsInvalid= true" >
+      </mat-form-field>
+      <div *ngIf="passwordIsInvalid" class="alert-danger">Password must contain at least six characters</div>
+
+      <br />
+      <br />
+
+      <button type="submit" mat-raised-button color="primary">Sign Up!</button>
+
+      <span *ngIf="display_spinner" class="go-right">
+        <mat-spinner class="thumb-spinner"></mat-spinner>
+      </span>
+    </form>
+
+
+    <br />
+
+    <div *ngIf="error" class="center-stuff">
+      <p class="font-18b alert-danger">{{ error }}</p>
+    </div>
+
+    <br />
+
+    <p>
+      By clicking "Sign Up", you agree to ZoJab's <a href="{{docs_url}}/tos" target="_blank">Terms and Conditions</a> and <a href="{{docs_url}}/privacy" target="_blank">Privacy Policy</a>.
+    </p>
+
+    <br />
+    <br />
+
+    <div class="center-stuff">
+      <a mat-button [routerLink]="['/login']">Already a user?</a>
+    </div>
+
+    <br />
+    <br />
+
+    <div class="center-stuff">
+      Please download the app onto your phone to sign up.
+    </div>
+
+    <br />
+    <br />
+
+
+    <div class="center-stuff">
+
+      <a  href="https://play.google.com/store/apps/details?id=com.nekki.shadowfight"> <mat-icon>android</mat-icon> Android app install</a>
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      <a  href="https://itunes.apple.com/us/app/fitbit/id462638897?mt=8&ign-mpt=uo%3D4"> <mat-icon>apple</mat-icon>  iOS app install</a>
+    </div>
+
+    <br />
+
+  </div>
+
+</mat-card>

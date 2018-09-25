@@ -1,0 +1,71 @@
+<span *ngIf="super">
+  <div class="width-40">
+    <form [formGroup]="usersFromForm">
+      <mat-form-field>
+          <input
+            matInput
+            formControlName="fromValue"
+            type="text"
+            placeholder="Select Email"
+            class="input-width-80"
+            [(ngModel)]=clearField1 >      
+      </mat-form-field>
+    </form>
+  </div>
+      
+  <div class="width-40">&nbsp; 
+    <div *ngFor="let user of usersFrom  | async">
+    <span (click)="selectFromUser(user)">{{user.emails[0].address}}</span>
+    </div>
+  </div>
+
+  <div class="width-20"><br />
+      <button mat-raised-button color="primary" (click)="getOwnerInfo()"> Get Transfer Info </button>    
+  </div>
+
+  <hr  class="width-100" />
+</span>
+
+<table>
+  <tr>
+    <th>Date Transferred</th>
+    <th># of Items</th>
+    <th>Payment</th>
+    <th  *ngIf="super">Status</th>      
+    <th  *ngIf="super">From</th>
+    <th  *ngIf="super">From Email</th>
+    <th  *ngIf="super">To</th>
+    <th  *ngIf="super">Edit</th>
+
+  </tr>
+
+  <tr *ngFor="let transfer of transfers">
+
+    <td>{{ transfer.created | date:'yMMMdjms' }} </td>
+    <td class="center-stuff">{{ transfer.items }}</td>
+
+    <td *ngIf="transfer.payment == 1">pending</td>
+    <td *ngIf="transfer.payment == 2">paid</td>
+    
+    <span *ngIf="super">
+      <td *ngIf="transfer.status == 1">new item</td>
+      <td *ngIf="transfer.status == 2">to owner</td>
+      <td *ngIf="transfer.status == 3">pushed live</td>
+    </span>
+    
+      <td *ngIf="super">{{ transfer.ownerFrom }}</td>
+      <td *ngIf="super">{{ transfer.fromEmail }}</td>      
+      <td *ngIf="super">{{ transfer.ownerTo }}</td>        
+      <td *ngIf="super"> <a href="#">edit</a> </td>
+
+      <!-- _id?: string;
+      ownerFrom: string;
+      ownerTo: string;
+      items?: number;
+      prices?: number;    
+      created: number;
+      status: number;
+      payment: number; -->
+
+  </tr>  
+</table>

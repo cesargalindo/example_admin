@@ -1,0 +1,139 @@
+<div layout="row" layout-wrap layout-align="start start" class="top-admin-controls">
+  <div flex="50">
+    <form [formGroup]="itemsForm">
+
+      Name: <input [(ngModel)]="searchName"
+                formControlName="name"
+                placeholder="enter name to search for..."
+                type="text"
+                class="input-width-80">
+
+      <br /> Size: <input [(ngModel)]="searchSize"
+                formControlName="size"
+                placeholder="enter size to search for..."
+                type="text"
+                class="input-width-30">
+                   
+     &nbsp; &nbsp; Unit: <mat-select
+                  class="input-width-20" 
+                  formControlName="unit" 
+                  name="xunit">
+                <mat-option *ngFor="let xunit of unitsList" [value]="xunit.value">
+                  {{xunit.viewValue}}
+                </mat-option>
+              </mat-select>
+
+      <br/>Done: <mat-select
+               class="input-width-20" 
+               formControlName="done" 
+               name="xdone">
+             <mat-option *ngFor="let xdone of doneList" [value]="xdone.value">
+               {{xdone.viewValue}}
+             </mat-option>
+           </mat-select>
+
+      &nbsp; &nbsp; Category: <mat-select
+        class="input-width-20"       
+        formControlName="category" 
+        name="xcat">
+          <mat-option *ngFor="let xcat of categories" [value]="xcat.value">
+            {{xcat.value}}
+          </mat-option>
+        </mat-select>
+
+    </form>
+
+  </div>
+
+  <div flex="30">
+    <form [formGroup]="sortByForm">
+      Sort by: <mat-select  placeholder="Sort by" formControlName="value" [(ngModel)]="sortByValue" >
+        <mat-option *ngFor="let item of sortByLists" [value]="item.value">{{item.viewValue}}</mat-option>
+      </mat-select>
+    </form>
+    <br /> <span class="font-18 green">Total # of items: &nbsp; <b> {{this.total}} </b> </span> 
+    &nbsp; &nbsp; &nbsp; &nbsp; <a [routerLink]="['/info']"> How To Info</a> 
+    
+  </div>
+
+  <div flex="20">
+      &nbsp; &nbsp; &nbsp; <button (click)="applyFilter()"> SEARCH </button> &nbsp; &nbsp; <button (click)="onRefreshClicked()">Refresh </button>
+      <span *ngIf="superadmin"> 
+          &nbsp; &nbsp; <button mat-raised-button color="warn" (click)="duplicateResults()"> DUPLICATE </button> 
+          &nbsp; &nbsp; <button mat-raised-button color="warn" (click)="removeDoubleColans()"> REMOVE :: </button> 
+      </span>
+</div>
+
+<hr class="width-100">
+         <button (click)="runTest(51)"> TEST1 </button> 
+  &nbsp; <button (click)="runTest(52)"> TEST2 </button>
+  &nbsp; <button (click)="runTest(53)"> TEST3 </button>
+  &nbsp; <button (click)="runTest(54)"> TEST4 </button>
+  &nbsp; <button (click)="runTest(55)"> TEST5 </button>
+  &nbsp; <button (click)="runTest(56)"> TEST6 </button>
+  &nbsp; <button (click)="runTest(57)"> TEST7 </button>
+  <!-- &nbsp; <button (click)="runTest(57)"> TEST7 </button> -->
+  <div *ngIf="errors" class="red"><br/> {{ errors }} </div>
+
+  <div class="center-stuff width-100">
+    <div class="spinner" [ngClass]="{ 'hidden': !loading }">.....</div>
+    <pagination-controls (pageChange)="getItemsParent($event, 0)" id="allItems"></pagination-controls>
+  </div>
+
+<hr class="width-100">
+
+<span *ngIf="apolloItemsCount | async | select: 'apItemsCount'"></span>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Size</th>
+    <th>Unit</th>    
+    <!-- <th>Quantity</th> -->
+    <th>Image</th>
+    <th>Price</th>
+    <th>Qty</th>
+    <th>Note</th>
+    <th>Category</th>
+    <th>Edit</th>
+    <th>Done</th>
+    
+  </tr>
+
+  <tr *ngFor="let item of apolloItems | async | paginate: { id: 'allItems', itemsPerPage: pageSize, currentPage: p, totalItems: total }">
+    <td> {{item.name}} </td>
+    <td> {{item.size}}</td>
+    <td> {{item.unit}}</td>
+    <!-- <td> {{item.quantity}}</td> -->
+
+    <td (click)="toggleMeFunc(item._id)">
+      <span *ngIf="!toggleMe[item._id]"> <img class="h100" src="{{item.image}}"> </span> 
+      <span *ngIf="toggleMe[item._id]"> <img src="{{item.image | displayLargeImage}}"> </span> 
+    </td>
+    
+    <td *ngIf="item.price2==9999.09" >Sold Out</td>
+    <td *ngIf="item.price2!=9999.09">{{item.price2}}</td>
+
+    <td>{{item.quantity2}}</td>
+    <td class="red"> <span *ngIf="item.note!='contractor'"> {{item.note}} </span> </td>
+    <td> {{item.category}} </td>
+    <td> 
+        <a mat-raised-button color="primary" id="small-button" (click)="editItem(item)">Edit</a> 
+        <span *ngIf="superadmin"> &nbsp; &nbsp; <a mat-raised-button color="warn" id="small-button" (click)="deleteItem(item)">Delete</a> </span>
+    </td>
+    <td> &nbsp; &nbsp; {{item.public}} </td>     
+  </tr>
+
+</table>
+
+
+<div class="center-stuff width-100">
+  <div class="spinner" [ngClass]="{ 'hidden': !loading }">.....</div>
+  <pagination-controls (pageChange)="getItemsParent($event, 0)" id="allItems"></pagination-controls>
+</div>
+
+<hr />
+
+<div class="center-stuff">
+  <a  mat-raised-button color="primary" (click)="AddNewItem()">Add New Item</a>
+</div>

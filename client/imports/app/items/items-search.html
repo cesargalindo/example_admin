@@ -1,0 +1,140 @@
+<form [formGroup]="itemsForm">
+
+  <div layout="row" layout-wrap layout-align="start start" class="top-admin-controls">
+
+    <div flex="30">
+        Name <input [(ngModel)]="searchName"
+                      formControlName="name"
+                      placeholder="enter name to search for..."
+                      type="text"
+                      class="input-width-80">
+    </div>
+
+    <div flex="20">
+        Size <input [(ngModel)]="searchSize"
+                      formControlName="size"
+                      placeholder="enter size to search for..."
+                      type="text"
+                      >
+    </div>
+
+    <div flex="20">
+        Unit <mat-select formControlName="unit" name="xunit">
+              <mat-option *ngFor="let xunit of unitsList" [value]="xunit.value">
+                {{xunit.viewValue}}
+              </mat-option>
+          </mat-select>
+    </div>
+
+    <div flex="20">
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a mat-raised-button color="primary" (click)="applyFilter()"> SEARCH </a>
+    </div>
+
+  </div>
+
+</form>
+
+<hr>
+
+<div layout="row" layout-wrap layout-align="start start" class="blue-prim">
+
+<div class="center-stuff">
+  <pagination-controls (pageChange)="getItemsParent($event)" id="allItems"></pagination-controls>
+</div>
+
+</div>
+
+
+<hr>
+
+<span *ngIf="apolloItemsCount | async | select: 'apItemsCount'"></span>
+
+<table>
+  <tr>
+    <th>searchTitle</th>
+    <th>Name</th>
+    <th>Size=Units=Qty</th>
+    <th>Image</th>
+    <th>Category</th>
+  </tr>
+
+  <tr *ngFor="let item of apolloItems | async | paginate: { id: 'allItems', itemsPerPage: pageSize, currentPage: p, totalItems: total }">
+
+    <td> 
+        <a *ngIf="tag1_ck[item._id]" mat-raised-button id="small-button2"   color="primary" (click)="updateSearchTitle(item, '1')"  > {{ tag1[item._id] }} </a>  &nbsp; 
+        <a *ngIf="!tag1_ck[item._id]" mat-raised-button id="small-button2"                  (click)="updateSearchTitle(item, '1')"  > {{ tag1[item._id] }} </a>  &nbsp; 
+
+        <a *ngIf="tag2_ck[item._id]" mat-raised-button id="small-button2"   color="primary" (click)="updateSearchTitle(item, '2')"  > {{ tag2[item._id] }} </a>  &nbsp; 
+        <a *ngIf="!tag2_ck[item._id]" mat-raised-button id="small-button2"                  (click)="updateSearchTitle(item, '2')"  > {{ tag2[item._id] }} </a>  &nbsp; 
+
+        <a *ngIf="tag3_ck[item._id]" mat-raised-button id="small-button2"   color="primary" (click)="updateSearchTitle(item, '3')"  > {{ tag3[item._id] }} </a>  &nbsp; 
+        <a *ngIf="!tag3_ck[item._id]" mat-raised-button id="small-button2"                  (click)="updateSearchTitle(item, '3')"  > {{ tag3[item._id] }} </a>  &nbsp; 
+
+        <a *ngIf="tag4_ck[item._id]" mat-raised-button id="small-button2"   color="primary" (click)="updateSearchTitle(item, '4')"  > {{ tag4[item._id] }} </a>  &nbsp; 
+        <a *ngIf="!tag4_ck[item._id]" mat-raised-button id="small-button2"                  (click)="updateSearchTitle(item, '4')"  > {{ tag4[item._id] }} </a>  &nbsp; 
+
+        <a *ngIf="tag5_ck[item._id]" mat-raised-button id="small-button2"   color="primary" (click)="updateSearchTitle(item, '5')"  > {{ tag5[item._id] }} </a>  &nbsp; 
+        <a *ngIf="!tag5_ck[item._id]" mat-raised-button id="small-button2"                  (click)="updateSearchTitle(item, '5')"  > {{ tag5[item._id] }} </a>  &nbsp; 
+
+        <a *ngIf="tag6_ck[item._id]" mat-raised-button id="small-button2"   color="primary" (click)="updateSearchTitle(item, '6')"  > {{ tag6[item._id] }} </a>  &nbsp; 
+        <a *ngIf="!tag6_ck[item._id]" mat-raised-button id="small-button2"                  (click)="updateSearchTitle(item, '6')"  > {{ tag6[item._id] }} </a>  &nbsp; 
+
+        <a *ngIf="tag7_ck[item._id]" mat-raised-button id="small-button2"   color="primary" (click)="updateSearchTitle(item, '7')"  > {{ tag7[item._id] }} </a>  &nbsp; 
+        <a *ngIf="!tag7_ck[item._id]" mat-raised-button id="small-button2"                  (click)="updateSearchTitle(item, '7')"  > {{ tag7[item._id] }} </a>  &nbsp; 
+
+        <a *ngIf="tag8_ck[item._id]" mat-raised-button id="small-button2"   color="primary" (click)="updateSearchTitle(item, '8')"  > {{ tag8[item._id] }} </a>  &nbsp; 
+        <a *ngIf="!tag8_ck[item._id]" mat-raised-button id="small-button2"                  (click)="updateSearchTitle(item, '8')"  > {{ tag8[item._id] }} </a>  &nbsp; 
+
+        <a *ngIf="tag9_ck[item._id]" mat-raised-button id="small-button2"   color="primary" (click)="updateSearchTitle(item, '9')"  > {{ tag9[item._id] }} </a>  &nbsp; 
+        <a *ngIf="!tag9_ck[item._id]" mat-raised-button id="small-button2"                  (click)="updateSearchTitle(item, '9')"  > {{ tag9[item._id] }} </a>  &nbsp; 
+
+        <a *ngIf="tag10_ck[item._id]" mat-raised-button id="small-button2"   color="primary" (click)="updateSearchTitle(item, '10')"  > {{ tag10[item._id] }} </a>  &nbsp; 
+        <a *ngIf="!tag10_ck[item._id]" mat-raised-button id="small-button2"                  (click)="updateSearchTitle(item, '10')"  > {{ tag10[item._id] }} </a>  &nbsp; 
+
+        <a *ngIf="tag11_ck[item._id]" mat-raised-button id="small-button2"   color="primary" (click)="updateSearchTitle(item, '11')"  > {{ tag11[item._id] }} </a>  &nbsp; 
+        <a *ngIf="!tag11_ck[item._id]" mat-raised-button id="small-button2"                  (click)="updateSearchTitle(item, '11')"  > {{ tag11[item._id] }} </a>  &nbsp; 
+
+        <a *ngIf="tag12_ck[item._id]" mat-raised-button id="small-button2"   color="primary" (click)="updateSearchTitle(item, '12')"  > {{ tag12[item._id] }} </a>  &nbsp; 
+        <a *ngIf="!tag12_ck[item._id]" mat-raised-button id="small-button2"                  (click)="updateSearchTitle(item, '12')"  > {{ tag12[item._id] }} </a>  &nbsp; 
+
+        <a *ngIf="tag13_ck[item._id]" mat-raised-button id="small-button2"   color="primary" (click)="updateSearchTitle(item, '13')"  > {{ tag13[item._id] }} </a>  &nbsp; 
+        <a *ngIf="!tag13_ck[item._id]" mat-raised-button id="small-button2"                  (click)="updateSearchTitle(item, '13')"  > {{ tag13[item._id] }} </a>  &nbsp; 
+
+        <a *ngIf="tag14_ck[item._id]" mat-raised-button id="small-button2"   color="primary" (click)="updateSearchTitle(item, '14')"  > {{ tag14[item._id] }} </a>  &nbsp; 
+        <a *ngIf="!tag14_ck[item._id]" mat-raised-button id="small-button2"                  (click)="updateSearchTitle(item, '14')"  > {{ tag14[item._id] }} </a>  &nbsp; 
+
+        <a *ngIf="tag15_ck[item._id]" mat-raised-button id="small-button2"   color="primary" (click)="updateSearchTitle(item, '15')"  > {{ tag15[item._id] }} </a>  &nbsp; 
+        <a *ngIf="!tag15_ck[item._id]" mat-raised-button id="small-button2"                  (click)="updateSearchTitle(item, '15')"  > {{ tag15[item._id] }} </a>  &nbsp; 
+
+        <a *ngIf="tag16_ck[item._id]" mat-raised-button id="small-button2"   color="primary" (click)="updateSearchTitle(item, '16')"  > {{ tag16[item._id] }} </a>  &nbsp; 
+        <a *ngIf="!tag16_ck[item._id]" mat-raised-button id="small-button2"                  (click)="updateSearchTitle(item, '16')"  > {{ tag16[item._id] }} </a>  &nbsp; 
+
+        <a *ngIf="tag17_ck[item._id]" mat-raised-button id="small-button2"   color="primary" (click)="updateSearchTitle(item, '17')"  > {{ tag17[item._id] }} </a>  &nbsp; 
+        <a *ngIf="!tag17_ck[item._id]" mat-raised-button id="small-button2"                  (click)="updateSearchTitle(item, '17')"  > {{ tag17[item._id] }} </a>  &nbsp; 
+
+        <a *ngIf="tag18_ck[item._id]" mat-raised-button id="small-button2"   color="primary" (click)="updateSearchTitle(item, '18')"  > {{ tag18[item._id] }} </a>  &nbsp; 
+        <a *ngIf="!tag18_ck[item._id]" mat-raised-button id="small-button2"                  (click)="updateSearchTitle(item, '18')"  > {{ tag18[item._id] }} </a>  &nbsp; 
+
+    </td>
+    
+    <td> {{item.name}} </td>
+    <td> {{item.size}} = {{item.unit}} = {{item.quantity}} </td>
+    
+    <td (click)="toggleMeFunc(item._id)">
+      <span *ngIf="!toggleMe[item._id]"> <img class="h100" src="{{item.image}}"> </span> 
+      <span *ngIf="toggleMe[item._id]"> <img src="{{item.image | displayLargeImage}}"> </span> 
+    </td>
+
+    <td> {{item.category}} </td>
+
+  </tr>
+
+</table>
+
+
+<div class="center-stuff">
+  <div class="spinner" [ngClass]="{ 'hidden': !loading }">.....</div>
+  <pagination-controls (pageChange)="getItemsParent($event)" id="allItems"></pagination-controls>
+</div>
+
+<hr />

@@ -1,0 +1,137 @@
+<mat-sidenav-container>
+
+  <mat-sidenav #sidenav class="sidenav">
+    <side-menus (click)="sidenav.close()"></side-menus>
+  </mat-sidenav>
+
+  <!-- <top-toolbar [SIDENAV]="sidenav" ></top-toolbar> -->
+  <!-- ss #########################################################-->
+
+  <mat-tab-group>
+
+    <mat-tab label="general">
+      <br /><br />
+      Here are some general guidelines to follow in entering item name, size and units information correctly.
+
+      <h4>1) Use units "ct" if an item is not sold/classified by volume or weight </h4>
+      <h4>2) Size equal the total size sold for that pack/box/bag/etc. </h4>
+      <h4>3) Highly recommended to perform a Goolge UPC Search in determining optimal Item Name</h4>
+      <h4>4) The brand/manfucturer should also be included in the Item Name </h4>
+      <h4>5) If you're still unsure about Item Name, Size and Units, we recommend you search exsting  <a [routerLink]="['/items']"> Items </a>  for similar items matches.  
+        Viewing similar items will provide you a better idea on what information to enter.<br />  </h4>
+    </mat-tab>
+
+
+    <mat-tab label="produce-oz">
+      <div class="width-50">
+          <h2>After</h2>
+          <img width="95%" src="info/20a.png">
+      </div>
+    </mat-tab>
+
+
+    <mat-tab label="produce-ct">
+      <div class="width-50">
+          <h2>After</h2>
+          <img width="95%" src="info/21a.png">
+      </div>
+    </mat-tab>
+
+
+    <mat-tab label="Grocery-oz">
+      <div class="width-50">
+          <h2>Before</h2>
+          <img width="95%" src="info/12a.png">
+      </div>
+      <div class="width-50">
+        <h2>After</h2>
+        <img width="95%" src="info/12b.png">
+      </div>
+      <div class="width-100 center-stuff"> 
+          <img width="50%" src="info/12p.png">          
+      </div>
+    </mat-tab>
+
+
+    <mat-tab label="Medical-ct">
+      <div class="width-50">
+          <h2>Before</h2>
+          <img width="95%" src="info/11a.png">
+      </div>
+      <div class="width-50">
+        <h2>After</h2>
+        <img width="95%" src="info/11b.png">
+      </div>
+
+      <div class="width-100 center-stuff"> 
+          <img width="50%" src="info/11p.png">          
+      </div>
+
+      <h2>Google UPC Search</h2>      
+      <div class="width-100 center-stuff"> 
+          <img width="50%" src="info/11g.png">          
+      </div>     
+    </mat-tab>
+  
+
+    <mat-tab label="Grocery-oz">
+      <div class="width-50">
+          <h2>Before</h2>
+          <img width="95%" src="info/13a.png">
+      </div>
+      <div class="width-50">
+        <h2>After</h2>
+        <img width="95%" src="info/13b.png">
+      </div>
+      <div class="width-100 center-stuff"> 
+          <img width="50%" src="info/13p.png">          
+      </div>
+    </mat-tab>
+
+
+    <mat-tab label="Grocery-oz">
+      <div class="width-50">
+          <h2>Before</h2>
+          <img width="95%" src="info/14a.png">
+      </div>
+      <div class="width-50">
+        <h2>After</h2>
+        <img width="95%" src="info/14b.png">
+      </div>
+    
+      <h2>Google UPC Search</h2>            
+      <div class="width-100 center-stuff"> 
+          <img width="50%" src="info/14g.png">          
+      </div>
+    </mat-tab>
+
+
+    <mat-tab label="Household-fl-oz">
+      <div class="width-50">
+          <h2>Before</h2>
+          <img width="95%" src="info/15a.png">
+      </div>
+      <div class="width-50">
+        <h2>After</h2>
+        <img width="95%" src="info/15b.png">
+      </div>
+    
+      <h2>Google UPC Search</h2>            
+      <div class="width-100 center-stuff"> 
+          <img width="50%" src="info/15g.png">          
+      </div>
+    </mat-tab>
+
+
+
+
+
+</mat-tab-group>
+
+
+  <!-- ss #########################################################-->
+</mat-sidenav-container>
+
+
+
+

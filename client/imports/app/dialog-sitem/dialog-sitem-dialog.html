@@ -1,0 +1,37 @@
+<span *ngIf="!(data.note == 'skip')">
+  <div class="dialog-header">
+    <span class="dialog-title-text">Edit note for {{data.name }} </span>
+    <button mat-dialog-close class="dialog-close-button material-icons md24" id="forceCloseClick">close</button>
+  </div>
+
+  <br />
+
+  <form [formGroup]="sItemForm">
+    <mat-form-field>
+      <input
+          matInput
+          type="text"
+          formControlName="note"
+          placeholder={{placeHolder}}>
+    </mat-form-field>
+  </form>
+      
+  <br /><br />
+  <button mat-raised-button class="dialog-primary-button" (click)="updateItem()"> UPDATE </button> 
+</span>
+
+
+<span *ngIf="(data.note == 'skip')">
+    <div class="dialog-header">
+        <span class="dialog-title-text">Set Status for {{data.name }} </span>
+        <button mat-dialog-close class="dialog-close-button material-icons md24" id="forceCloseClick">close</button>
+      </div>
+    
+      {{ data.status }} -- {{ data.note}}
+      <br /><br />
+      <button span *ngIf="data.status==2" mat-raised-button class="dialog-primary-button" (click)="updateItemStatus(2)"> SKIP ITEM </button> 
+      <button span *ngIf="data.status==0" mat-raised-button class="dialog-primary-button" (click)="updateItemStatus(0)"> SET ITEM STATUS = 0 </button> 
+      <button span *ngIf="data.status==1" mat-raised-button class="dialog-primary-button" (click)="updateItemStatus(1)"> NOT FOUND - SAVE FOR LATER </button>       
+</span>
+
+<br />

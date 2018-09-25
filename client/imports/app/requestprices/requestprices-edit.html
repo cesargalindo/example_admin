@@ -1,0 +1,109 @@
+<div class="zo1-container">
+
+  <span *ngIf="cancelRequest">
+    <div id="topdiv">
+      <a [routerLink]="['/myrequestprices']" mat-raised-button class="top-49">Cancel</a>
+      <button (click)="CancelRequestPrice()" type="submit" mat-raised-button color="primary" class="top-49">Cancel Request</button>
+    </div>
+
+    <span *ngIf="display_spinner"> {{display_spinner}} <mat-spinner></mat-spinner> </span>
+
+    <br />
+    <br />
+    <div class="layout-margin-5-center blue-prim">Cancel Price Request</div>
+
+    <div class="row">
+
+      <div class="zo1-info">
+
+        <mat-card>
+          <h3> {{ list.itemTitle }} </h3>
+
+          <div class="width-50">
+
+            <p> <span class="grey">Quantity:</span> {{list.quantity}} - pid: {{list.priceId}} </p>
+
+            <span class="grey">Store:</span> <br /> {{list.storeName}} <br />
+            {{list.storeAddress}}
+
+          </div>
+
+          <div class="width-50">
+            <span *ngIf="list.itemImage">  <img class="w125" src="{{list.itemImage}}"> </span>
+            <span *ngIf="!list.itemImage"> <mat-spinner></mat-spinner> </span>
+          </div>
+
+          <span class="clear"> &nbsp; </span>
+           <br />
+          <div *ngIf="errors.error" class="alert-danger width-100">{{errors.error}}</div>
+
+        </mat-card>
+
+      </div>
+
+    </div>
+
+  </span>
+
+  <form [formGroup]="requestPriceForm" (submit)="EditRequestPrice()"  *ngIf="!cancelRequest">
+
+    <div id="topdiv">
+      <a [routerLink]="['/myrequestprices']" mat-raised-button class="top-49">Cancel</a>
+      <button type="submit" mat-raised-button color="primary" class="top-49">Update</button>
+    </div>
+
+    <br />
+    <br />
+    <div class="layout-margin-5-center blue-prim">Edit Price Request</div>
+
+    <div class="row">
+
+      <div class="zo1-info">
+
+        <mat-card>
+          <h3> {{ list.itemTitle }} </h3>
+
+          <div class="width-50">
+
+            <p> <span class="grey">Quantity:</span> {{list.quantity}} - pid: {{list.priceId}} </p>
+
+            <span class="grey">Store:</span> <br /> {{list.storeName}} <br />
+            {{list.storeAddress}}
+
+          </div>
+
+          <div class="width-50">
+            <span *ngIf="list.itemImage">  <img class="w125" src="{{list.itemImage}}"> </span>
+            <span *ngIf="!list.itemImage"> <mat-spinner></mat-spinner> </span>
+          </div>
+
+          <span class="clear"> &nbsp; </span>
+        </mat-card>
+
+      </div>
+
+    </div>
+
+    <br />
+
+    <div class="row">
+
+      <div class="zo1-submit">
+        <mat-card>
+          <div *ngIf="errors.error" class="alert-danger">{{errors.error}}</div> <br />
+          <div *ngIf="errors.payRequest_isOverBalance" class="alert-danger">{{msgs.payRequest_isOverBalance}}</div> <br />
+
+          <request1-slider [defaultValues]="defaultEditValues"  (sliderData)="sliderDataChanged($event)"></request1-slider>
+
+          <input type="text" formControlName="id" type="hidden" >
+
+          <span *ngIf="display_spinner"> {{display_spinner}} <mat-spinner></mat-spinner> </span>
+        </mat-card>
+
+      </div>
+
+    </div>
+
+  </form>
+
+</div>

@@ -1,0 +1,135 @@
+
+
+
+<div layout="row" layout-wrap layout-align="start start" class="xtop-admin-controls">
+
+  <div flex="30">
+    <mat-form-field> 
+      <mat-select placeholder="{{chainName}}" [(ngModel)]="owner" (ngModelChange)="onChangeStore($event)">
+        <mat-option *ngFor="let st of storeChains" [value]="st.value">
+          {{ st.viewValue }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div flex="30">
+      <mat-checkbox
+        (change)="upcMatchesOnly()"
+        color="primary">Display SITEMS with UPC Matches only
+      </mat-checkbox>
+  </div>
+
+  <div flex="40">
+    Total available sitems for {{this.chainName}} = {{ total }}
+  </div>
+
+</div>
+
+<span *ngIf="apolloItemsCount2 | async"></span>
+
+<table>
+  
+  <tr>
+    <th>Match</th>
+    <th>Name</th>
+    <th>Quantity</th>
+    <th>Status - Start - End - Note</th>
+  </tr>
+
+  <tr class="layout-margin-5" *ngFor="let it of apolloItems2 | async | paginate: { id: 'itemPager', itemsPerPage: pageSize, currentPage: p, totalItems: total }">
+    <td>  <a (click)="matchItems(it)">Match</a>   </td>    
+    <td> 
+      {{it.name}}
+      <span *ngIf="it.itemT" class="pink">
+        <br /> {{it.itemT.size}} -- {{it.itemT.unit}} 
+      </span>
+    </td>
+    <td> {{it.quantity}}</td>
+    <td class="bottom-border" > 
+      
+      <span *ngIf="it.prices">
+        <span *ngFor="let price of it.prices">
+            <br /> 
+            <span class="light-blue">
+                  {{ price.gid }}, {{ price.price }} {{ price.startsAt }}
+            </span>
+        </span>
+      </span>
+
+    </td>
+  </tr>
+
+
+</table>
+
+<br />
+
+<div class="is-text-centered ">
+  <div class="spinner" [ngClass]="{ 'hidden': !loading }">.....</div>
+  <pagination-controls (pageChange)="getItems($event)" id="itemPager"></pagination-controls>
+</div>
+
+<hr />
+<span *ngIf="display_progress"> <mat-progress-bar mode="determinate" value="{{progress_bar}}"></mat-progress-bar> </span>
+
+<span *ngIf="!display_progress">
+  <a *ngIf="!upcMatch" mat-raised-button color="accent" (click)="updateSitemsUPCMatch()"> 1) UPDATE SITEMS with UPCMatch (updates to sitems occur in Apollo code) </a> - filters by: upcMatch = false 
+  <a *ngIf="upcMatch" mat-raised-button color="accent" (click)="updateSitemsUPCMatch()" disabled> 1) UPDATE SITEMS with UPCMatch (updates to sitems occur in Apollo code) </a>  - filters by: upcMatch = false 
+  <hr />
+  <a mat-raised-button color="primary" (click)="findMissingUPCsItems()"> 2) Find INVALID UPC in SITEMS --> ITEM with UPC not found - {{ chainName }} </a>
+  <hr />
+  <a *ngIf="!upcMatch" mat-raised-button color="primary" (click)="createPriceEntries()" disabled>3) CREATE PRICES FROM UPC MATCHES - {{ chainName }} </a>  - filters by: upcMatch = true, updatedAt
+  <a *ngIf="upcMatch" mat-raised-button color="primary" (click)="createPriceEntries()">3) CREATE PRICES FROM UPC MATCHES - {{ chainName }}  -  Last updated: {{ updatedAt |  displayFormatDate }} </a> - filters by: upcMatch = true, updatedAt
+  <hr />
+
+  <hr />
+  <br />
+  <hr />
+
+  <a mat-raised-button color="primary" (click)="updateItemsSynonyms()"> UPDATE ITEMS IS MAIN SYNONYM TERM </a>  
+  <hr />
+  <a mat-raised-button color="accent" (click)="sanitizeSitems()"> Sanitize SITEMS </a>  &nbsp; &nbsp; 
+  <a mat-raised-button color="accent" (click)="updateSitemsSynonyms()"> UPDATE SITEMS WITH MAIN SYNONYM TERM, Clean Up SITEM info </a>  
+
+  <hr />
+  <br />
+  <hr />
+
+  <a mat-raised-button color="accent" (click)="initMitemsInSitems()"> Initialize NULL mitems with empty array in SITEMS </a>  
+  <hr />
+  <a mat-raised-button color="warn" (click)="conertItemsUpcToIntegers()"> Convert Item UPCs to Integers </a>
+  <hr />
+  <a mat-raised-button color="warn" (click)="removeInvalidItemId()"> Find INVALID Items "ids" in SITEMS --> MITEMS </a>
+  <hr />
+
+  <a mat-raised-button color="primary" (click)="updateValidSprice()"> Update validSprice in SITEMS - all stores </a>
+  <hr />
+  <a mat-raised-button color="primary" (click)="fixInvalidSprice()"> Fix Invalid validSprice in SITEMS - all stores </a>
+  <hr />
+  <br />
+  <hr />
+
+  <a mat-raised-button color="warn" (click)="addId2ScrapePrices()"> ADD _id TO SCRAPED SITEM -> prices -> _id</a>
+  <hr />
+  <a mat-raised-button color="warn" (click)="fixAlphTagIssues()"> FIX BROKEN ITEMS from alpha "tag" work </a>
+  <hr />
+  <a mat-raised-button color="primary" (click)="revertItemNames()"> SET ITEM searchTitle = Name</a>  
+  <hr />
+  <a mat-raised-button color="primary" (click)="cleanUpItemSearchTitle()"> Clean up searchTitle</a>  
+  <hr />
+
+  <a mat-raised-button color="primary" (click)="cleanUpUndefinedSearchTitle()"> Clean up UNDEFINED searchTitle</a>  
+  <hr />
+
+  <a mat-raised-button color="warn" (click)="revertSItemNames()"> REVERT Sitem Names </a>  
+  <hr />
+
+  <a mat-raised-button (click)="fixInvalidImagePath()"> Clean Up Invalid Image Path for Items </a>  
+  <hr />
+
+</span>
+
+<hr />
+<br />
+<br />

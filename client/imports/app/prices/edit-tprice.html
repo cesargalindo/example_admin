@@ -1,0 +1,68 @@
+<h3>Edit My Price</h3>
+
+<form [formGroup]="editItemForm">
+
+    <mat-card>
+
+      <h4> Schedule Start Date</h4>
+      <mat-form-field>
+        <input
+          matInput
+          [matDatepicker]="picker"
+          formControlName="dateValue"
+          [min]="minDate"
+          [max]="maxDate"
+          placeholder="Choose a date">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+
+      <mat-form-field class="input-width-90">
+        <input
+            matInput
+            type="tel"
+            dividerColor="primary"
+            formControlName="price"
+            placeholder="enter PRICE here">
+      </mat-form-field>
+      <br />
+      <br />
+  
+      <mat-form-field class="input-width-90">
+        <input
+            matInput
+            type="tel"
+            dividerColor="primary"
+            formControlName="quantity"
+            placeholder="enter QUANTITY here - must be an integer">
+      </mat-form-field>
+      <br />
+      <br />
+  
+    </mat-card>
+  
+  </form>
+
+
+
+<br />
+<span *ngIf="display_spinner"> {{display_spinner}} <mat-spinner></mat-spinner> </span>
+
+<a mat-raised-button (click)="customRedirect()">Back</a> 
+&nbsp; &nbsp; <a mat-raised-button color="primary" (click)="editExistingTprice()" >Update</a>
+
+<div layout="row" layout-wrap layout-align="start start" class="top-admin-controls">
+  <div flex="50">
+    &nbsp; &nbsp; {{ name }} <br />
+    &nbsp; &nbsp; {{ size }} {{ units }} <br />
+    &nbsp; &nbsp; {{ storeName }}
+  </div>
+
+  <div flex="50">
+      <img src="{{image}}">
+  </div>
+</div>
+
+
+

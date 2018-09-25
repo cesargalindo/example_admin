@@ -1,0 +1,58 @@
+<span *ngIf="apolloItem | async"></span>
+<span *ngIf="apolloMasterItem | async"></span>
+
+<span *ngIf="itemId">
+  <h3>Duplicate Item</h3>
+
+  <span *ngIf="display_spinner"> {{display_spinner}} <mat-spinner></mat-spinner> </span>
+
+  <mat-card>
+    <form [formGroup]="masterItemForm" >
+
+      <mat-card-title>Master item</mat-card-title>
+
+      <label>Item ID:</label>
+      <input type="text"  formControlName="id"><br>
+
+      <span *ngIf="masterItemInfo">
+        <label>Item Name: </label> {{masterItemInfo.name}}  <br />
+        <label>Item Size: </label> {{masterItemInfo.size}} {{masterItemInfo.unit}} <br />
+        <label>Item Image: </label> <img class="w125" src="{{masterItemInfo.image}}"> <br />
+        <label>Category: </label> {{masterItemInfo.category}} <br />
+        <label>Public: </label> <span *ngIf="masterItemInfo.public"> {{masterItemInfo.public}} </span>  <br />
+      </span>
+
+      <a mat-raised-button color="primary" (click)="GetMasterItem()">Select Master Item</a>
+
+    </form>
+  </mat-card>
+
+  <br />
+
+  <mat-card>
+    <form [formGroup]="editItemForm" >
+
+      <mat-card-title>Duplicate item</mat-card-title>
+      <p class="red">Replace this duplicate item with master item:</p>
+      <input type="text"  formControlName="itemId" [hidden]="true">
+      <span *ngIf="itemInfo">
+        <label>Item Name: </label> {{itemInfo.name}}  <br />
+        <label>Item Size: </label> {{itemInfo.size}}  {{itemInfo.unit}} <br />
+        <label>Item Image: </label> <img class="w125" src="{{itemInfo.image}}"> <br />
+        <label>Category: </label> {{itemInfo.category}} <br />
+        <label>Public: </label> <span *ngIf="itemInfo.public"> {{itemInfo.public}} </span>  <br />
+      </span>
+
+      <a mat-raised-button color="primary" (click)="ReplaceDuplicateItem()" >Replace Duplicate Item</a>
+      <a mat-raised-button [routerLink]="['/items']">Back</a>
+
+    </form>
+  </mat-card>
+
+
+</span>
+
+
+
+
+

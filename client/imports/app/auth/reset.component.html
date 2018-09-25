@@ -1,0 +1,47 @@
+<mat-card class="margin-3">
+
+  <mat-toolbar color="primary" class="margin-bottom-15">
+    Reset Your Password
+  </mat-toolbar>
+
+  <div class="card-body">
+
+    <form [formGroup]="resetForm" (submit)="reset()">
+      <mat-form-field class="input-width-95">
+        <input
+            matInput
+            formControlName="password"
+            dividerColor="primary"
+            type="password"
+            maxlength="40"
+            required
+            placeholder="Password"
+            (blur)="passwordValidator(resetForm.value.password) == true ? passwordIsInvalid = false : passwordIsInvalid= true" >
+      </mat-form-field>
+      <div *ngIf="passwordIsInvalid" class="alert-danger">Password must contain at least six characters</div>
+
+      <br />
+      <br />
+
+      <button type="submit" mat-raised-button color="primary">Reset</button>
+
+      <span *ngIf="display_spinner" class="go-right">
+        <mat-spinner></mat-spinner>
+      </span>
+
+    </form>
+
+
+      <div *ngIf="error" class="center-stuff">
+          <p class="font-18b alert-danger">{{ error }}</p>
+      </div>
+
+      <br />
+
+      <div class="center-stuff">
+        <a mat-button [routerLink]="['/login']">Remember your password?</a>
+      </div>
+
+    </div>
+
+</mat-card>

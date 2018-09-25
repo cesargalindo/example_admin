@@ -1,0 +1,123 @@
+<br />
+
+Items in csv file "all_items.txt":  {{ itemFileCount }}
+<br />
+Items in Mongo: {{DB_URL}} : {{ itemMongoCount }}
+<br />
+Items in Mongo export file: {{ITEM_FILE_URL}} :  {{ itemExportFileCount }}
+<br />
+Items in Elasticsearch: : {{ES_URL}} : {{ itemESCount }}
+
+<br /><br />
+
+<button mat-raised-button color="primary" (click)="getItemInfo()">Get Item Info </button>
+<button mat-raised-button color="primary" (click)="importItemsMongo()">Import Mongo "csv" </button>
+<button mat-raised-button color="primary" (click)="exportMongoItems()">Export Items to "txt"</button>
+
+<br /><br />
+
+<button mat-raised-button color="accent" (click)="importItemsMongoTXT()">Import Mongo "txt" </button>
+<button mat-raised-button color="warn" (click)="resetItemsES()">Reset Items ES</button>
+<button mat-raised-button color="primary" (click)="importItemsES()">Import ES </button>
+
+<br />
+<button mat-raised-button color="primary" (click)="analyzeItems()">Analyze </button>
+<button mat-raised-button color="primary" (click)="syncItems()">Sync Items</button>
+
+<span *ngIf="missing" class="red">
+  <div class="flex-wrapper" *ngFor="let info of missing">
+    {{info.id}} --  {{info.name}}
+  </div>
+</span>
+
+<span *ngIf="synced" class="green">
+  <div class="flex-wrapper" *ngFor="let info of synced">
+    {{info.id}} --  {{info.name}}
+  </div>
+</span>
+
+<br /> <br />
+
+
+
+<mat-toolbar color="primary" class="header-toolbar">
+  <span> Stores </span>
+</mat-toolbar>
+
+<br />
+
+Stores in csv file "california_companies1.txt":  {{ storeFileCount }}
+<br />
+Stores in Mongo: {{DB_URL}} : {{ storeMongoCount }}
+<br />
+Stores in Mongo export file: {{STORE_FILE_URL}} :  {{ storeExportFileCount }}
+
+<br /><br />
+
+<button mat-raised-button color="primary" (click)="getStoreInfo()">Get Store Info </button>
+<button mat-raised-button color="primary" (click)="importStoresMongo()">Import Stores "csv"</button>
+<button mat-raised-button color="primary" (click)="exportMongoStores()">Export Stores to "txt"</button>
+
+<br /><br />
+
+<button mat-raised-button color="accent" (click)="importStoresMongoTXT()">Import Stores "txt"</button>
+
+<br /> <br />
+
+
+
+<mat-toolbar color="primary" class="header-toolbar">
+  <span> Prices </span>
+</mat-toolbar>
+
+<br />
+
+Prices in Mongo: {{DB_URL}} : {{ priceMongoCount }}
+<br />
+Prices in Mongo export file: {{PRICE_FILE_URL}} :  {{ priceExportFileCount }}
+<br />
+Prices in Elasticsearch: : {{ES_URL}} : {{ pricesESCount }}
+
+<br /><br />
+
+<button mat-raised-button color="primary" (click)="getPriceInfo()">Get Price Info </button>
+<button mat-raised-button color="accent" (click)="importPricesMongo()">Import Prices "txt" </button>
+<button mat-raised-button color="primary" (click)="exportMongoPrices()">Export Prices to "txt"</button>
+
+<br /><br />
+
+<button mat-raised-button color="warn" (click)="resetPricesES()">Reset Prices ES</button>
+<button mat-raised-button color="primary" (click)="importPricesES()">Import ES </button>
+<button mat-raised-button color="primary" (click)="analyzePrices()">Analyze </button>
+
+<span *ngIf="missingPrices" class="red">
+  <div class="flex-wrapper" *ngFor="let info of missingPrices">
+    {{info.id}} --  {{info.name}}
+  </div>
+</span>
+
+<button mat-raised-button color="primary" (click)="syncPrices()">Sync Prices</button>
+
+<span *ngIf="syncedPrices" class="green">
+  <div class="flex-wrapper" *ngFor="let info of syncedPrices">
+    {{info.id}} --  {{info.name}}
+  </div>
+</span>
+
+<br /><br />
+
+<button mat-raised-button color="accent" (click)="addRandomPrices()">Add Random Prices</button>
+
+<br />
+<br />
+
+<!-- ######################################################################## -->
+<hr /> <hr /> <br />
+
+<button mat-raised-button color="warn" (click)="loadOpLogFile()">Incorporate data from OpLog File </button>
+
+<!-- ######################################################################## -->
+<br /> <br /> <hr /> <hr /> <br /> 
+
+<button mat-raised-button color="primary" (click)="importPepeItemsMongo()">Import Pepe Items "csv" </button>
+<button mat-raised-button color="primary" (click)="importPepeItemsES()">Import Pepe ES </button>

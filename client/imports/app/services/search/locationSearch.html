@@ -1,0 +1,23 @@
+<div class="subheader-search-bar">
+<mat-form-field>
+  <input matInput [placeholder]="placeHolderText" 
+  [matAutocomplete]="auto" 
+  [formControl]="searchControl">
+
+  <span style="margin-left:-36px;">
+      <mat-icon *ngIf="useMyLocation" class="md-24 md-dark md-active">my_location</mat-icon>
+      <mat-icon *ngIf="useCustomLocation" class="md-24 md-dark md-inactive">location_disabled</mat-icon>
+  </span>
+
+  <mat-icon class="search24" (click)=clickSearch()>search</mat-icon>
+
+  <mat-icon class="md-24 md-dark">filter_list</mat-icon>
+  <mat-icon class="md-24 md-dark">sort</mat-icon> 
+</mat-form-field>
+
+<mat-autocomplete #auto="matAutocomplete">
+  <mat-option *ngFor="let result of filteredResults | async" [value]="result">
+    {{ result }}
+  </mat-option>
+</mat-autocomplete>
+</div>

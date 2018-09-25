@@ -1,0 +1,65 @@
+
+<p> Total available items count = {{ total }}
+  <span class="go-right"> <button mat-raised-button  color="accent" (click)="identifyNameDuplicates()">Find Items Duplicate Names</button>  </span> 
+  <span class="go-right"> <button mat-raised-button  color="primary"  (click)="identifyUpcDuplicates()">Find Items with Duplicate UPCs</button>  </span> 
+</p>
+
+<span *ngIf="apolloItemsCount2 | async"></span>
+<span *ngIf="display_spinner"> <mat-spinner></mat-spinner> </span>
+
+<table>
+  
+  <tr>
+    <th>Match</th>
+    <th>Status</th>
+    <th>Dups</th>
+  </tr>
+
+  <tr class="layout-margin-5" *ngFor="let it of apolloItems2 | async | paginate: { id: 'itemPager', itemsPerPage: pageSize, currentPage: p, totalItems: total }">
+    
+    <span *ngIf="!statuses[it._id]">
+      <td>  
+        <button (click)="matchItems(it)">Match</button>  <br /> &nbsp; <br /> 
+      </td>    
+
+      <td> {{it.status}}</td>
+
+      <td class="bottom-border" >
+        <span *ngIf="it.dupitems">
+          New Name <mat-checkbox (click)="select_name(it)"></mat-checkbox> 
+          <span *ngIf="selectName[it._id]"> <mat-form-field> <input matInput type="text" [(ngModel)]="newName"/></mat-form-field> </span>
+          <a mat-raised-button color="primary" id="small-button" (click)="mergeItems(it)" class="go-right">Merge Items</a> 
+
+          <span *ngFor="let ditem of it.dupitems">
+            <br /> 
+            <span class="light-blue">
+                  {{ ditem.itemT.name }} == {{ ditem.itemT.size }} {{ ditem.itemT.unit }}, {{ditem.itemT.category}}  {{ditem.itemT.category}} 
+                  
+                  <img *ngIf="!imageToggle[ditem.itemT._id]" class="w40" src="{{ditem.itemT.image}}" (click)="imageToggleClick(ditem.itemT._id)">  
+                  <img *ngIf="imageToggle[ditem.itemT._id]" class="w250" src="{{ditem.itemT.image}}" (click)="imageToggleClick(ditem.itemT._id)">  
+
+                  &nbsp; main <mat-checkbox (click)="select_main(it, ditem.itemT)"></mat-checkbox> 
+                  &nbsp; image <mat-checkbox (click)="select_image(it, ditem.itemT)"></mat-checkbox> 
+                  &nbsp; size-unit <mat-checkbox (click)="select_size_unit(it, ditem.itemT)"></mat-checkbox> 
+                  &nbsp; Cat <mat-checkbox (click)="select_category(it, ditem.itemT)"></mat-checkbox> 
+            </span>
+            <span class="pink"> {{ ditem.itemT.upc }} </span>
+          </span>
+        </span>
+      </td>
+      
+    </tr>
+  </span>
+
+</table>
+
+<br />
+
+<div class="is-text-centered ">
+  <div class="spinner" [ngClass]="{ 'hidden': !loading }">.....</div>
+  <pagination-controls (pageChange)="getItems($event)" id="itemPager"></pagination-controls>
+</div>
+
+<hr />
+
+<dialog-sitem>load dialog-sitem by clicking</dialog-sitem>

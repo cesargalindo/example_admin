@@ -1,0 +1,69 @@
+
+<div id="topdiv">
+  <mat-toolbar color="primary" class="header-toolbar">
+    <mat-icon [routerLink]="['/']">arrow_back</mat-icon> &nbsp; REJECTED PRICES
+  </mat-toolbar>
+</div>
+
+<span *ngIf="apolloSubmitpricesCount2 | async | select: 'apSubmitpricesCount'"></span>
+
+<br /> <br /> <br />
+
+<nav mat-tab-nav-bar>
+  <a mat-tab-link [routerLink]="['/sp-schedule']"
+          routerLinkActive="active-link"
+          [routerLinkActiveOptions]="{exact: true}">
+    Scheduled Submits
+  </a>
+  <a mat-tab-link [routerLink]="['/spsubmitted']"
+      routerLinkActive="active-link"
+      [routerLinkActiveOptions]="{exact: true}">
+    Active
+  </a>
+
+  <a mat-tab-link [routerLink]="['/sprejected']"
+      routerLinkActive="active-link"
+      [routerLinkActiveOptions]="{exact: true}">
+    Rejected
+  </a>
+
+  <a mat-tab-link [routerLink]="['/spclosed']"
+      routerLinkActive="active-link"
+      [routerLinkActiveOptions]="{exact: true}">
+    Closed
+  </a>
+</nav>
+
+<span *ngIf="display_spinner"> <mat-spinner></mat-spinner> </span>
+
+<div class="layout-margin-5" *ngFor="let sp of apolloSubmitprices2 | async | paginate: { id: 'rpPager', itemsPerPage: pageSize, currentPage: p, totalItems: total }">
+
+  <h4> {{sp.submittedAt | date:'yMMMdjms' }} </h4>
+
+  <div class="width-20 min-height-1"> <a mat-mini-fab (click)="detailedView(sp)" class="go-left"><mat-icon>check</mat-icon></a> </div>
+
+  <div class="width-50 min-height-1">Pay for price</div>
+  <div class="width-100 min-height-1 layout-last-right"><s>{{sp.payout | displayDecimalUp | currency:'USD':true:'1.2-2'}}</s></div>
+
+  <div class="width-50 min-height-1">Submitted price</div>
+  <div *ngIf="sp.price > 99999" class="width-100 min-height-1 layout-last-right">
+    {{sp.price | displayPriceStatus }}
+  </div>
+  <div *ngIf="sp.price <= 99999" class="width-100 min-height-1 layout-last-right">
+    {{sp.price | currency:'USD':true:'1.2-2'}}
+  </div>
+
+  <div class="width-20 min-height-1"> &nbsp; &nbsp; </div>
+  <div class="width-100 min-height-1 grey">
+    {{sp.priceT2.itemT.name | slice:0:28 }}<span *ngIf="sp.priceT2.itemT.name.length > 28">&hellip;</span>
+  </div>
+
+
+</div>
+
+<br />
+
+<div class="is-text-centered ">
+  <div class="spinner" [ngClass]="{ 'hidden': !loading }">.....</div>
+  <pagination-controls (pageChange)="getRejectedprices($event)" id="rpPager"></pagination-controls>
+</div>

@@ -1,0 +1,126 @@
+<nav mat-tab-nav-bar>
+  <a mat-tab-link [routerLink]="['/rp-schedule']"
+     routerLinkActive="active-link"
+     [routerLinkActiveOptions]="{exact: true}">
+    Scheduled Request
+  </a>
+
+  <a mat-tab-link [routerLink]="['/myrequestprices']"
+     routerLinkActive="active-link"
+     [routerLinkActiveOptions]="{exact: true}">
+    Requests
+  </a>
+</nav>
+
+<div class="input-field col s12">
+  <form [formGroup]="userSearchFrom">
+    <input
+        formControlName="value"
+        type="text"
+        [(ngModel)]=clearField
+        placeholder="Enter email" >
+  </form>
+</div>
+
+<span class="go-right">
+  Time reported: {{ currentDate | displayFormatTime }} &nbsp;
+</span>
+
+<br>
+
+<div *ngFor="let user of usersList  | async">
+  <a (click)="SelectUser(user)">{{user.emails[0].address}}</a>
+</div>
+
+<h4 *ngIf="email">
+  Selected User:  {{email}}, {{userId}}
+
+</h4>
+
+<hr>
+
+<span *ngIf="apolloRequestpricesCount | async | select: 'apRequestpricesCount'"></span>
+
+<table>
+  <tr>
+    <th>Requested</th>
+    <th>Name</th>
+    <th>Store</th>
+    <th>Pay Request</th>
+    <th>Expires</th>
+    <th>Status</th>
+    <th>Submitted</th>
+    <th>Paid</th>
+    <th>Submitted Price</th>
+    <th>Actions</th>
+  </tr>
+
+
+  <tr *ngFor="let rp of apolloRequestprices | async | paginate: { id: 'rpPager', itemsPerPage: pageSize, currentPage: p, totalItems: total }">
+
+    <td> {{rp.requestedAt | displayFormatDate}} </td>
+
+    <td> {{rp.priceT2.itemT.name}} <br> {{rp.priceT2.itemT.size}},   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   Qty: {{rp.priceT2.quantity}} </td>
+    <td> {{rp.priceT2.storeT.name}} <br> {{rp.priceT2.storeT.address}}  </td>
+
+    <td> {{rp.payRequest | currency:'USD':true:'1.2-2' }} </td>
+
+    <td> {{rp.expiresAt | displayFormatDateNow}} </td>
+
+    <td> {{rp.status | displayRequestpriceStatus}} </td>
+
+    <td>
+      <span *ngFor="let paidTo of rp.paidTos">
+        {{paidTo.paidAt | displayFormatDate}} <br>
+      </span>
+    </td>
+
+    <td>
+      <span *ngFor="let paidTo of rp.paidTos">
+        <p *ngIf="paidTo.status == -1" class="line-through"><s>z</s>{{paidTo.payout}} - {{paidTo.status}} </p>
+        <p *ngIf="paidTo.status != -1"><s>z</s>{{paidTo.payout}} - {{paidTo.status}} </p>
+        <br>
+      </span>
+    </td>
+
+    <td>
+      <span *ngFor="let paidTo of rp.paidTos">
+        <p *ngIf="paidTo.status == -1" class="line-through">{{paidTo.submitpriceT.price}} - Rejected </p>
+        <p *ngIf="paidTo.status != -1">{{paidTo.submitpriceT.price}} - <a mat-raised-button color="warn" id="small-button" (click)="RejectSubmittedPrice(paidTo, rp._id, rp.owner)">Reject Price</a> </p>
+      </span>
+    </td>
+
+
+    <td>
+      <span *ngIf="rp.status == 9">
+        <a  mat-raised-button color="primary" id="small-button" (click)="approveRequestPriceNew(rp)">Approve</a> |
+
+        <span *ngIf="!rp.paidTos">
+          <a mat-raised-button color="primary" id="small-button" (click)="editRequestPriceNew(rp)">Edit</a> |
+        </span>
+
+        <a mat-raised-button color="accent" id="small-button" (click)="cancelRequestPriceNew(rp)">Cancel</a>
+      </span>
+
+      <span *ngIf="rp.status == 1">
+        <span *ngIf="!rp.paidTos">
+        <a mat-raised-button color="primary" id="small-button" (click)="editRequestPrice(rp)">Edit</a> |
+        </span>
+
+        <a mat-raised-button id="small-button" (click)="cancelRequestPrice(rp)">Cancel</a>
+      </span>
+    </td>
+
+
+  </tr>
+
+  <div class="center-stuff">
+    <div class="spinner" [ngClass]="{ 'hidden': !loading }">.....</div>
+    <pagination-controls (pageChange)="getMyRequestprices($event)" id="rpPager"></pagination-controls>
+
+  </div>
+
+
+</table>
+
+

@@ -1,0 +1,48 @@
+<div>
+    <!-- menu opens when trigger button is clicked -->
+    <a mat-menu-item [routerLink]="['/']">Home</a> <br />    
+
+    <span [hidden]="!isContractor">
+        <a mat-menu-item [routerLink]="['/items-c']">Items-C</a> <br />
+        <a mat-menu-item [routerLink]="['/transfers']">My Work</a> <br />
+        <span [hidden]="!isLocalhost">
+            <a mat-menu-item [routerLink]="['/items-tags']">Items-Tags</a> <br />
+        </span>
+    </span>
+
+    <span [hidden]="!isLeadContractor">
+        <a mat-menu-item [routerLink]="['/scrapes1']">Item-Matches</a> <br />
+        <a mat-menu-item [routerLink]="['/items']">Items</a> <br />        
+        <a mat-menu-item [routerLink]="['/my-prices']">My Prices</a> <br />
+        <a mat-menu-item [routerLink]="['/settings']">Settings</a> <br />
+    </span>
+
+    <span [hidden]="!isAdmin">
+        <a mat-menu-item [routerLink]="['/items-search']">Items-Search</a> <br />
+        <a mat-menu-item [routerLink]="['/items2']">Items-C-Tags</a> <br />
+        <a mat-menu-item [routerLink]="['/items-dup']">Items-Dups</a> <br />
+        <a mat-menu-item [routerLink]="['/item-duplicate']">Item-D</a> <br />
+
+        <a mat-menu-item [routerLink]="['/scrapes-check']">Scrapes-Check</a> <br />        
+        <a mat-menu-item [routerLink]="['/scrapes-report']">Scrapes-Report</a> <br />        
+        <a mat-menu-item [routerLink]="['/scrapes2']">I-Scrapes2</a> <br />
+        <a mat-menu-item [routerLink]="['/items-add-upc']">Add Item by UPC</a> <br />
+        <a mat-menu-item [routerLink]="['/users']">Users</a> <br />
+        <a mat-menu-item [routerLink]="['/users-counts']">User Counts</a> <br />
+        <a mat-menu-item [routerLink]="['/stores']">Stores</a> <br />
+        <a mat-menu-item [routerLink]="['/prices']">Prices</a> <br />
+
+        <a mat-menu-item [routerLink]="['/issues']">Issues</a> <br />
+
+        <a mat-menu-item [routerLink]="['/rp-schedule']">Requests</a> <br />
+        <a mat-menu-item [routerLink]="['/sp-schedule']">Submits</a> <br />
+        <a mat-menu-item [routerLink]="['/load-data']">Load Data</a> <br />
+    </span>
+
+    <span [hidden]="!isLoggedIn">
+        <a mat-menu-item (click)="logout()" > Sign Out </a> <br />
+    </span>
+
+    <a mat-menu-item [routerLink]="['/info']"> Help </a> <br />
+
+</div>

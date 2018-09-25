@@ -1,0 +1,34 @@
+
+
+
+Total available items count = {{ totalCount }}
+
+<ul>
+  <li *ngFor="let issue of dataArray | paginate: { id: 'server', itemsPerPage: pageSize, currentPage: p, totalItems: totalCount }">
+    {{issue.created | displayFormatDate}}, Status: {{issue.status}}, {{issue.note}} <br>
+
+    <span  *ngIf="issue.severity">{{issue.severity}} - </span>
+    <span  *ngIf="issue.priceId">PriceId: {{issue.priceId}}, </span>
+    <span  *ngIf="issue.rpId">rpId: {{issue.rpId}}, </span>
+    <span  *ngIf="issue.spId">spId: {{issue.spId}}, </span>
+    <span  *ngIf="issue.itemId">itemId: {{issue.itemId}}, </span>
+    <span  *ngIf="issue.storeId">storeId: {{issue.storeId}}, </span>
+    <span  *ngIf="issue.pqId">pqId: {{issue.pqId}}, </span>
+    <span  *ngIf="issue.quantity">quantity: {{issue.quantity}}, </span>
+    <span  *ngIf="issue.expiresAt">expiresAt: {{issue.expiresAt}}, </span>
+    <span  *ngIf="issue.requestPayout">requestPayout: {{issue.requestPayout}}, </span>
+    <span  *ngIf="issue.priceFactor">priceFactor: {{issue.priceFactor}}, </span>
+    <span  *ngIf="issue.sumPayout">priceFactor: {{issue.sumPayout}}, </span>
+    <span  *ngIf="issue.rpids">priceFactor: {{issue.rpids}}, </span>
+
+    <hr>
+  </li>
+</ul>
+
+<br>
+<div class="center-stuff">
+    <pagination-controls (pageChange)="getPageX($event)" id="server"></pagination-controls>
+  </div>
+</div>
+
+<hr>

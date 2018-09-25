@@ -1,0 +1,73 @@
+<span *ngIf="apolloItemsCount | async | select: 'apItemsCount'"></span>
+
+<p *ngIf="error" class="red">{{error}} </p>
+<p *ngIf="success" class="green">{{success}} </p>
+
+<div layout="row" layout-wrap layout-align="start start" class="top-admin-controls">
+
+  <div flex="40">
+    <form [formGroup]="usersFromForm">
+      <mat-form-field>
+          <input
+            matInput
+            formControlName="fromValue"
+            type="text"
+            placeholder="From Email"
+            class="input-width-80"
+            [(ngModel)]=clearField1 >      
+      </mat-form-field>
+    </form>
+  </div>
+
+  <div flex="40">
+      <form [formGroup]="usersToForm">
+          <mat-form-field>
+              <input
+                matInput
+                formControlName="toValue"
+                type="text"
+                placeholder="To Email"
+                class="input-width-80"
+                [(ngModel)]=clearField2 >
+          </mat-form-field>
+      </form>
+  </div>
+
+  <div flex="10" *ngIf="!leadContractor">
+    <button mat-raised-button color="primary" (click)="getTransferInfo()"> Get Transfer Info </button>
+  </div>
+
+  <div flex="10" *ngIf="leadContractor">
+    <button mat-raised-button color="warn" (click)="transferItemOwnership()"> Transfer Items to Lead Contractor</button>
+  </div>
+
+</div>
+
+<hr>
+
+  <h3 *ngIf="total"> Total items to transer: {{total}} </h3>
+
+<hr>
+
+<div class="width-40">&nbsp; <br />
+  <div *ngFor="let user of usersFrom  | async">
+  <span (click)="selectFromUser(user)">{{user.emails[0].address}}</span>
+  </div>
+</div>
+
+<div class="width-40">&nbsp; <br />
+  <div *ngFor="let user of usersTo  | async">
+    <span (click)="selectToUser(user)">{{user.emails[0].address}} </span>
+  </div>
+</div>
+
+
+<hr />
+
+  <div *ngIf="leadContractor" flex="30">
+    <mat-checkbox [(ngModel)]="limitAmount">Limit to 500</mat-checkbox>
+  </div>
+
+  <div *ngIf="leadContractor" flex="30">
+    <button mat-raised-button color="warn" (click)="noTrecordTransfer()"> Transfer - No Records </button>
+  </div>

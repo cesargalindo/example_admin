@@ -1,0 +1,98 @@
+<div>
+
+  <form [formGroup]="storesForm">
+
+    <div layout="row" layout-wrap class="layout-margin-5 flex-color-row-odd">
+      <div flex="40">
+          Name: <input [(ngModel)]="clearStoreField"
+                      formControlName="name"
+                      type="text" >
+      </div>
+
+      <div flex="60">
+        <button (click)="applyFilter()"> Search  </button>
+      </div>
+    </div>
+
+    <div layout="row" layout-wrap class="layout-margin-5 flex-color-row-even">
+      <div flex="40">
+        <places-autocomplete *ngIf="searchEnabled" contextID="map_builtin" [persist]="false"  (onSearchComplete)="customAddressSelected($event)"  > </places-autocomplete>
+      </div>
+
+      <div flex="10"> &nbsp; </div>
+
+      <div flex="20">
+        <button (click)="addGoogleStore()"> Add Selected Store  </button>
+      </div>
+
+      <div flex="20">
+        <a [routerLink]="['/store']">Add New Custom Store</a>
+      </div>
+    </div>
+
+    <div layout="row" layout-wrap class="layout-margin-5 flex-color-row-odd">
+        <div flex="40">
+            chainName: <input [(ngModel)]="test1"
+                        formControlName="chainName"
+                        type="text" >
+        </div>
+  
+        <div flex="40">
+            chainLocationId: <input [(ngModel)]="test2"
+                        formControlName="chainLocationId"
+                        type="text" >
+        </div>
+      </div>
+
+  </form>
+  
+  <span *ngIf="display_spinner"> <mat-spinner></mat-spinner> </span>
+
+  <div layout="row" layout-wrap class="layout-margin-5" *ngIf="message || error">
+    <div flex="100">
+      <span class="green">{{message}}</span>
+    </div>
+
+    <div flex="100">
+      <span class="red">{{error}}</span>
+    </div>
+  </div>
+
+</div>
+
+<hr>
+
+<table>
+  <tr>
+    <th>id</th>
+    <th>Name</th>
+    <th>Address</th>
+    <th>phoneNumber</th>
+    <th>website</th>
+    <th>hours</th>
+    <th>Lat, Lng</th>
+    <th>Public</th>
+    <th>Edit</th>
+  </tr>
+
+  <tr *ngFor="let store of theseStores | paginate: { id: 'allStores', itemsPerPage: pageSize, currentPage: p, totalItems: total }">
+    <td> {{store._id}} </td>
+    <td> {{store.name}} </td>
+    <td> {{store.address}} </td>
+    <td> {{store.phoneNumber}}</td>
+    <td> {{store.website}} </td>
+    <td> {{store.hours}} </td>
+    <td> {{store.location.coordinates[1]}} <br> {{store.location.coordinates[0]}}   </td>
+    <td> {{store.public}}  </td>
+    <td> <a (click)="editStore(store)"> Edit </a>  </td>
+
+  </tr>
+
+</table>
+
+
+<div class="spinner" [ngClass]="{ 'hidden': !loading }">.....</div>
+
+<div class="center-stuff">
+  <pagination-controls (pageChange)="getPageEvent($event)" id="allStores"></pagination-controls>
+</div>

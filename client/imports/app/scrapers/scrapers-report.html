@@ -1,0 +1,57 @@
+<span *ngIf="display_spinner">
+    <br/> <mat-spinner></mat-spinner> <br/>
+</span>
+
+
+
+<table>
+  <tr>
+    <th>Store</th>
+    <th> Scraper UpdatedAt </th>
+    <th> Prices Updated </th>
+    <th> Update Required </th>
+    <th> Update </th>
+    <th> Scraper Skip </th>
+    <th> Custom Update </th>
+  </tr>
+
+  <tr class="layout-margin-5" *ngFor="let store of leChain">
+    <td *ngIf="!store.updateRequired" class="light-blue"> {{ store.chainName }} {{ store.foo }} </td>
+    <td *ngIf="!store.updateRequired" class="light-blue"> {{ store.updatedAt }} - {{ store.updatedAt | displayFormatDate }} </td>
+    <td *ngIf="!store.updateRequired" class="light-blue"> {{ store.updated }} - {{ store.updated | displayFormatDate }} </td>
+    <td *ngIf="!store.updateRequired" class="light-blue"> {{ store.updateRequired }} </td>
+    <td *ngIf="!store.updateRequired"> <button mat-raised-button  class="mat-warn" id="small-button" (click)="updateReportItem(store)">Update</button> </td>
+    <td *ngIf="!store.updateRequired" class="light-blue"> {{ store.skip }} - {{ store.skip | displayFormatDate }} </td>
+    <td *ngIf="!store.updateRequired" class="light-blue">  <button mat-raised-button  class="mat-accent" id="small-button" (click)="updateCustomDate(store)">Custom</button>  </td>
+
+    <td *ngIf="store.updateRequired" class="pink"> {{ store.chainName }} </td>
+    <td *ngIf="store.updateRequired" class="pink"> {{ store.updatedAt }} - {{ store.updatedAt | displayFormatDate }} </td>
+    <td *ngIf="store.updateRequired" class="pink"> {{ store.updated }} - {{ store.updated | displayFormatDate }} </td>
+    <td *ngIf="store.updateRequired" class="pink"> {{ store.updateRequired }} </td>
+    <td *ngIf="store.updateRequired"> <button mat-raised-button  class="mat-warn" id="small-button" (click)="updateReportItem(store)">Update</button> </td>
+    <td *ngIf="store.updateRequired" class="pink"> {{ store.skip }} - {{ store.skip | displayFormatDate }} </td>
+    <td *ngIf="store.updateRequired" class="pink"> <button mat-raised-button  class="mat-accent" id="small-button" (click)="updateCustomDate(store)">Custom</button> </td>
+  </tr>
+
+  <tr class="layout-margin-5">
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td colspan="3"> Enter updatedAt value to filter SITEMS by: </td>
+    <td colspan="2"> 
+      <form [formGroup]="reportsForm">
+        <input formControlName="customUpdatedAt" placeholder="enter custom updatedAt date..." type="number" class="input-width-90">
+      </form> 
+    </td>
+  </tr>
+
+</table>
+
+
+<hr >
+<ul>
+  <li *ngFor="let issue of dataArray">
+    {{issue._id }}, {{issue.chainName}}, {{issue.scrapedAt}}, {{issue.pricedAt}}, {{issue.updateAt}}
+    <hr>
+  </li>
+</ul>
+

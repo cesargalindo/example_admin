@@ -1,0 +1,217 @@
+<div layout="row" layout-wrap layout-align="start start" class="top-admin-controls">
+
+  <div flex="60">
+    <mat-chip-list>
+      
+      <span *ngIf="name1">
+        <mat-chip *ngIf="name1_check" (click)="nameClicked(1,false)" color="accent" selected="true">{{name1}}</mat-chip>
+        <mat-chip *ngIf="!name1_check" (click)="nameClicked(1,true)" >{{name1}}</mat-chip>
+      </span>
+
+      <span *ngIf="name2">
+        <mat-chip *ngIf="name2_check" (click)="nameClicked(2,false)" color="accent" selected="true">{{name2}}</mat-chip>
+        <mat-chip *ngIf="!name2_check" (click)="nameClicked(2,true)" >{{name2}}</mat-chip>
+      </span>
+
+      <span *ngIf="name3">
+        <mat-chip *ngIf="name3_check" (click)="nameClicked(3,false)" color="accent" selected="true">{{name3}}</mat-chip>
+        <mat-chip *ngIf="!name3_check" (click)="nameClicked(3,true)" >{{name3}}</mat-chip>
+      </span>
+
+      <span *ngIf="name4">
+        <mat-chip *ngIf="name4_check" (click)="nameClicked(4,false)" color="accent" selected="true">{{name4}}</mat-chip>
+        <mat-chip *ngIf="!name4_check" (click)="nameClicked(4,true)" >{{name4}}</mat-chip>
+      </span>
+
+      <span *ngIf="name5">
+        <mat-chip *ngIf="name5_check" (click)="nameClicked(5,false)" color="accent" selected="true">{{name5}}</mat-chip>
+        <mat-chip *ngIf="!name5_check" (click)="nameClicked(5,true)" >{{name5}}</mat-chip>
+      </span>
+
+      <span *ngIf="name6">
+        <mat-chip *ngIf="name6_check" (click)="nameClicked(6,false)" color="accent" selected="true">{{name6}}</mat-chip>
+        <mat-chip *ngIf="!name6_check" (click)="nameClicked(6,true)" >{{name6}}</mat-chip>
+      </span>
+
+      <span *ngIf="name7">
+        <mat-chip *ngIf="name7_check" (click)="nameClicked(7,false)" color="accent" selected="true">{{name7}}</mat-chip>
+        <mat-chip *ngIf="!name7_check" (click)="nameClicked(7,true)" >{{name7}}</mat-chip>
+      </span>
+
+      <span *ngIf="name8">
+        <mat-chip *ngIf="name8_check" (click)="nameClicked(8,false)" color="accent" selected="true">{{name8}}</mat-chip>
+        <mat-chip *ngIf="!name8_check" (click)="nameClicked(8,true)" >{{name8}}</mat-chip>
+      </span>
+
+      &nbsp; &nbsp; Common:
+      <mat-chip *ngIf="name9_check" (click)="nameClicked(9,false)" color="primary" selected="true">fresh</mat-chip>
+      <mat-chip *ngIf="!name9_check" (click)="nameClicked(9,true)" >fresh</mat-chip>
+
+      <mat-chip *ngIf="name10_check" (click)="nameClicked(10,false)" color="primary" selected="true">frozen</mat-chip>
+      <mat-chip *ngIf="!name10_check" (click)="nameClicked(10,true)" >frozen</mat-chip>
+
+      <mat-chip *ngIf="name11_check" (click)="nameClicked(11,false)" color="primary" selected="true">raw</mat-chip>
+      <mat-chip *ngIf="!name11_check" (click)="nameClicked(11,true)" >raw</mat-chip>
+
+      <mat-chip *ngIf="name15_check" (click)="nameClicked(15,false)" color="primary" selected="true">cooked</mat-chip>
+      <mat-chip *ngIf="!name15_check" (click)="nameClicked(15,true)" >cooked</mat-chip>
+
+      <mat-chip *ngIf="name12_check" (click)="nameClicked(12,false)" color="primary" selected="true">bar</mat-chip>
+      <mat-chip *ngIf="!name12_check" (click)="nameClicked(12,true)" >bar</mat-chip>
+
+      <mat-chip *ngIf="name13_check" (click)="nameClicked(13,false)" color="primary" selected="true">bottle</mat-chip>
+      <mat-chip *ngIf="!name13_check" (click)="nameClicked(14,true)" >bottle</mat-chip>
+      
+      <mat-chip *ngIf="name14_check" (click)="nameClicked(14,false)" color="primary" selected="true">can</mat-chip>
+      <mat-chip *ngIf="!name14_check" (click)="nameClicked(14,true)" >can</mat-chip>
+
+     <br /> {{itemName}}
+     <br /> {{itemSize}} {{itemUnit}}, Qty: {{itemQuantity}}, Price: ${{itemPrice}}
+     <br /> Desc: {{itemDescription}}
+    </mat-chip-list>
+  </div>
+
+
+  <div flex="40">
+     <span (click)="toggleMeFunc('topImage')">
+        <span *ngIf="!toggleMe['topImage']"> <img class="h100" src="{{itemImage}}"> </span> 
+        <span *ngIf="toggleMe['topImage']"> <img src="{{itemImage}}"> </span> 
+     </span>
+  </div>
+
+
+  <div flex="50" *ngIf="!itemStatus">
+    <form [formGroup]="itemsForm">
+
+      Name: <input [(ngModel)]="inputSearchName"
+                    formControlName="name"
+                    placeholder="enter name to search for..."
+                    type="text"
+                    class="input-width-60 font-size-24">
+
+      &nbsp; &nbsp; &nbsp; <a mat-raised-button color="primary" id="small-button" (click)="applyFilter()"> SEARCH </a>  
+
+      <br /> Size: <input [(ngModel)]="searchSize"
+                    formControlName="size"
+                    placeholder="enter size to search for..."
+                    type="text"
+                    class="input-width-50 font-size-24"> use dash: 6-8 equals 6 &lt;= x &lt;= 8 )
+                    
+      <br/>Unit: <mat-select
+                    (ngModelChange)="onChangeUnit($event)"
+                    class="input-width-50 font-size-24" 
+                    formControlName="unit" 
+                    name="xunit">
+                  <mat-option *ngFor="let xunit of unitsList" [value]="xunit.value">
+                    {{xunit.viewValue}}
+                  </mat-option>
+                </mat-select>
+    </form>
+  </div>
+
+  <div flex="50" *ngIf="itemStatus" class="dark-slate-gray">
+    <br />
+    &nbsp; <button mat-raised-button (click)="editItemStatus2()">NOT FOUND</button>
+    <br /> &nbsp;
+  </div>
+
+  <div flex="30">
+    <form [formGroup]="filterByForm">
+
+      <br/>Category: <mat-select
+        class="input-width-50" 
+        formControlName="category" 
+        name="xcat">
+        <mat-option *ngFor="let xcat of categories" [value]="xcat.value">
+          {{xcat.value}}
+        </mat-option>
+      </mat-select>
+
+    </form>
+
+    <br />
+
+    <span *ngIf="!itemStatus">
+      &nbsp; <button mat-raised-button color="accent" id="small-button" (click)="editItemStatus2()">NOT FOUND</button>
+    </span>
+
+  </div>
+
+  <div flex="20" *ngIf="isAdmin">
+      &nbsp; &nbsp; &nbsp; <a mat-raised-button color="primary" id="small-button" (click)="setDups()"> DUP-EM </a>  
+  </div>
+
+
+</div>
+
+<hr>
+
+<span *ngIf="apolloItemsCount | async | select: 'apItemsCount'"></span>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Size</th>
+    <th>Units</th>
+    <th>Qty</th>
+    <th>Image</th>
+    <th>Category</th>
+    <th>UPC</th>
+    <th>Matches</th>    
+    <th>Action</th>
+    <th *ngIf="isAdmin">Dup</th>
+    <th>Custom <br /> Qty</th>
+  </tr>
+
+  <tr *ngFor="let item of apolloItems | async | paginate: { id: 'allItems', itemsPerPage: pageSize, currentPage: p, totalItems: total }">
+    <td> {{item.name}} </td>
+    <td> {{item.size}}</td>
+    <td> {{item.unit}}</td>
+    <td> {{item.quantity}}</td>
+    <td (click)="toggleMeFunc(item._id)">
+      <span *ngIf="!toggleMe[item._id]"> <img class="h100" src="{{item.image}}"> </span> 
+      <span *ngIf="toggleMe[item._id]"> <img src="{{item.image | displayLargeImage}}"> </span> 
+    </td>
+
+    <td> {{item.category}} </td>
+    <td> {{item.upc}}</td>
+    
+    <td class="bottom-border" > 
+      <span *ngIf="item.mitems">
+          <span *ngFor="let mitem of it.mitems">
+              <br /> 
+              <span class="light-blue">
+                   {{ mitem.itemT.name }}, {{ mitem.itemT.size }} {{ mitem.itemT.unit }} <img class="w40" src="{{mitem.itemT.image}}">
+              </span>
+            <span *ngIf="!mitem.itemT.upc" class="pink">, no upc</span>
+        </span>
+    </td>
+
+    <td>
+      <span *ngIf="mItems[item._id]"> <a mat-raised-button (click)="selectItem(item)" disabled>Selected </a>  &nbsp; </span>
+      <span *ngIf="!mItems[item._id]"> <a mat-raised-button (click)="selectItem(item)">Selected </a>  &nbsp; </span>
+      <a mat-raised-button (click)="deSelectItem(item)"> Deselect</a> &nbsp; 
+      <a mat-raised-button (click)="editItem(item)"> Edit</a> &nbsp; 
+    </td>
+
+    <td *ngIf="isAdmin">
+        <span *ngIf="item.dupCount.count ">	&#x2714; </span>
+        <span *ngIf="!item.dupCount.count "> <mat-checkbox (click)="checkMe(item)"></mat-checkbox> </span>
+    </td>
+
+    <td>
+        <mat-checkbox (click)="customQuantityChecked(item)"></mat-checkbox>
+    </td>
+  </tr>
+
+</table>
+
+
+<div class="center-stuff">
+  <div class="spinner" [ngClass]="{ 'hidden': !loading }">.....</div>
+  <pagination-controls (pageChange)="getItemsParent($event)" id="allItems"></pagination-controls>
+</div>
+
+<br /><br />
+
+<dialog-sitem>load dialog-sitem by clicking id foofoo </dialog-sitem>

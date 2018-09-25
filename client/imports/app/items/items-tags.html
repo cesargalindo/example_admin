@@ -1,0 +1,138 @@
+<div layout="row" layout-wrap layout-align="start start" class="top-admin-controls">
+  <div flex="50">
+    <form [formGroup]="itemsForm">
+      Name: <input [(ngModel)]="searchName"
+                   formControlName="name"
+                   placeholder="enter name to search for..."
+                   type="text"
+                   class="input-width-80">
+
+      <br /> Size: <input [(ngModel)]="searchSize"
+                   formControlName="size"
+                   placeholder="enter size to search for..."
+                   type="text"
+                   class="input-width-50">
+                   
+     <br/>Unit: <mat-select
+                   class="input-width-50" 
+                   formControlName="unit" 
+                   name="xunit">
+                 <mat-option *ngFor="let xunit of unitsList" [value]="xunit.value">
+                   {{xunit.viewValue}}
+                 </mat-option>
+               </mat-select>
+    </form>
+  </div>
+
+  <div flex="30">
+    <form [formGroup]="filterByForm">
+
+      <mat-select  placeholder="Sort by" formControlName="value" [(ngModel)]="filterByValue" >
+        <mat-option *ngFor="let item of filterByLists" [value]="item.value">{{item.viewValue}}</mat-option>
+      </mat-select>
+
+      <br/>Category: <mat-select
+        class="input-width-50" 
+        formControlName="category" 
+        name="xcat">
+        <mat-option *ngFor="let xcat of categories" [value]="xcat.value">
+          {{xcat.value}}
+        </mat-option>
+      </mat-select>
+
+    </form>
+
+  </div>
+
+  <div flex="20">
+      &nbsp; &nbsp; &nbsp; <button (click)="applyFilter()"> SEARCH </button> 
+  </div>
+
+</div>
+
+<div class="center-stuff">
+  <div class="spinner" [ngClass]="{ 'hidden': !loading }">.....</div>
+  <pagination-controls (pageChange)="getItemsParent($event)" id="allItems"></pagination-controls>
+</div>
+
+<hr>
+
+<span *ngIf="apolloItemsCount | async | select: 'apItemsCount'"></span>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Size</th>
+    <th>Units</th>
+    <th>Qty</th>
+    <th>Image</th>
+    <th>Category</th>
+    <th>Action</th>
+  </tr>
+
+  <tr *ngFor="let item of apolloItems | async | paginate: { id: 'allItems', itemsPerPage: pageSize, currentPage: p, totalItems: total }">
+    <td> {{item.name}} </td>
+    <td> {{item.size}}</td>
+    <td> {{item.unit}}</td>
+    <td> {{item.quantity}}</td>
+
+    <td (click)="toggleMeFunc(item._id)">
+      <span *ngIf="!toggleMe[item._id]"> <img class="h100" src="{{item.image}}"> </span> 
+      <span *ngIf="toggleMe[item._id]"> <img src="{{item.image}}"> </span> 
+    </td>
+
+    <td> {{item.category}} </td>
+
+    <td>
+      <a *ngIf="_varsService.fresh[item._id]" mat-raised-button id="small-button2"    color="primary" (click)="updateItemTags(item, 'fresh')"  > fresh </a>  &nbsp; 
+      <a *ngIf="!_varsService.fresh[item._id]" mat-raised-button id="small-button2"                     (click)="updateItemTags(item, 'fresh')"  > fresh </a>  &nbsp; 
+      <a *ngIf="_varsService.frozen[item._id]" mat-raised-button id="small-button2"   color="primary" (click)="updateItemTags(item, 'frozen')"> frozen </a>  &nbsp;  
+      <a *ngIf="!_varsService.frozen[item._id]" mat-raised-button id="small-button2"                    (click)="updateItemTags(item, 'frozen')"> frozen </a>  &nbsp;  
+      <a *ngIf="_varsService.raw[item._id]" mat-raised-button id="small-button2"      color="primary" (click)="updateItemTags(item, 'raw')"> raw </a> &nbsp;   
+      <a *ngIf="!_varsService.raw[item._id]" mat-raised-button id="small-button2"                       (click)="updateItemTags(item, 'raw')"> raw </a> &nbsp;   
+      
+      <a *ngIf="_varsService.cooked[item._id]" mat-raised-button id="small-button2"      color="primary" (click)="updateItemTags(item, 'cooked')"> cooked</a> &nbsp;   
+      <a *ngIf="!_varsService.cooked[item._id]" mat-raised-button id="small-button2"                       (click)="updateItemTags(item, 'cooked')"> cooked</a> &nbsp;   
+
+      <a *ngIf="_varsService.bulk[item._id]" mat-raised-button id="small-button2"     color="primary" (click)="updateItemTags(item, 'bulk')"> bulk </a> &nbsp;   
+      <a *ngIf="!_varsService.bulk[item._id]" mat-raised-button id="small-button2"                      (click)="updateItemTags(item, 'bulk')"> bulk </a> &nbsp;   
+      <a *ngIf="_varsService.organic[item._id]" mat-raised-button id="small-button2"  color="primary" (click)="updateItemTags(item, 'organic')"> organic </a> &nbsp;   
+      <a *ngIf="!_varsService.organic[item._id]" mat-raised-button id="small-button2"                   (click)="updateItemTags(item, 'organic')"> organic </a> &nbsp;
+
+      <a *ngIf="_varsService.alcohol[item._id]" mat-raised-button id="small-button2"  color="primary" (click)="updateItemTags(item, 'alcohol')"> alcohol </a>  &nbsp; 
+      <a *ngIf="!_varsService.alcohol[item._id]" mat-raised-button id="small-button2"                   (click)="updateItemTags(item, 'alcohol')"> alcohol </a>  &nbsp; 
+      
+      <a *ngIf="_varsService.beverage[item._id]" mat-raised-button id="small-button2" color="primary" (click)="updateItemTags(item, 'beverage')"> beverage </a>  &nbsp; 
+      <a *ngIf="!_varsService.beverage[item._id]" mat-raised-button id="small-button2"                 (click)="updateItemTags(item, 'beverage')"> beverage </a>  &nbsp; 
+      
+      <a *ngIf="_varsService.baby[item._id]" mat-raised-button id="small-button2"     color="primary" (click)="updateItemTags(item, 'baby')"> baby </a>  &nbsp; 
+      <a *ngIf="!_varsService.baby[item._id]" mat-raised-button id="small-button2"                      (click)="updateItemTags(item, 'baby')"> baby </a>  &nbsp; 
+      
+      <a *ngIf="_varsService.dairy[item._id]" mat-raised-button id="small-button2"    color="primary" (click)="updateItemTags(item, 'dairy')"> dairy </a> &nbsp;   
+      <a *ngIf="!_varsService.dairy[item._id]" mat-raised-button id="small-button2"                     (click)="updateItemTags(item, 'dairy')"> dairy </a> &nbsp;   
+
+      <a *ngIf="_varsService.juice[item._id]" mat-raised-button id="small-button2"    color="primary" (click)="updateItemTags(item, 'juice')"> juice </a> &nbsp;   
+      <a *ngIf="!_varsService.juice[item._id]" mat-raised-button id="small-button2"                     (click)="updateItemTags(item, 'juice')"> juice </a> &nbsp;   
+      
+      <a *ngIf="_varsService.bread[item._id]" mat-raised-button id="small-button2"    color="primary" (click)="updateItemTags(item, 'bread')"> bread </a> &nbsp;   
+      <a *ngIf="!_varsService.bread[item._id]" mat-raised-button id="small-button2"                     (click)="updateItemTags(item, 'bread')"> bread </a> &nbsp;   
+      
+      <a *ngIf="_varsService.pastry[item._id]" mat-raised-button id="small-button2"    color="primary" (click)="updateItemTags(item, 'pastry')"> pastry </a> &nbsp;   
+      <a *ngIf="!_varsService.pastry[item._id]" mat-raised-button id="small-button2"                     (click)="updateItemTags(item, 'pastry')"> pastry </a> &nbsp;   
+
+        <!-- <a *ngIf="_varsService.bottle[item._id]" mat-raised-button id="small-button2"   color="primary" (click)="updateItemTags(item, 'bottle')"> bottle </a> &nbsp;    -->
+        <!-- <a *ngIf="!_varsService.bottle[item._id]" mat-raised-button id="small-button2"                    (click)="updateItemTags(item, 'bottle')"> bottle </a> &nbsp;    -->
+
+    </td>
+
+  </tr>
+
+</table>
+
+
+<div class="center-stuff">
+  <div class="spinner" [ngClass]="{ 'hidden': !loading }">.....</div>
+  <pagination-controls (pageChange)="getItemsParent($event)" id="allItems"></pagination-controls>
+</div>
+
+<br /><br />

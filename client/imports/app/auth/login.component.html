@@ -1,0 +1,67 @@
+<mat-card class="margin-3">
+
+  <mat-toolbar color="primary" class="margin-bottom-15">
+    Sign in
+  </mat-toolbar>
+
+  <div class="card-body">
+
+    <form [formGroup]="loginForm" (submit)="login()">
+
+      <mat-form-field class="input-width-95">
+        <input
+            matInput
+            formControlName="cellEmail"
+            dividerColor="primary"
+            type="text"
+            maxlength="50"
+            required
+            placeholder="Email or Cellphone number"
+            (keyup)="cellphoneFormat(loginForm.value.cellEmail)"
+            (blur)="emailValidator(loginForm.value.cellEmail) == true ? emailIsInvalid = false : emailIsInvalid= true"
+            (blur)="cellphoneValidator(loginForm.value.cellEmail) == true ? cellphoneIsInvalid = false : cellphoneIsInvalid = true" >
+      </mat-form-field>
+      <div *ngIf="cellphoneIsInvalid" class="alert alert-sm alert-danger">Cellphone number must be 10 digits</div>
+      <div *ngIf="emailIsInvalid" class="alert-danger">Email address is invalid</div>
+
+      <mat-form-field class="input-width-95">
+        <input
+            matInput
+            formControlName="password"
+            dividerColor="primary"
+            type="password"
+            maxlength="40"
+            required
+            placeholder="Password"
+            (blur)="passwordValidator(loginForm.value.password) == true ? passwordIsInvalid = false : passwordIsInvalid= true" >
+      </mat-form-field>
+      <div *ngIf="passwordIsInvalid" class="alert-danger">Password must contain at least six characters</div>
+
+      <br />
+      <br />
+
+      <button type="submit" mat-raised-button color="primary" >Sign In</button>
+
+      <span *ngIf="display_spinner" class="go-right">
+        <mat-spinner class="thumb-spinner"></mat-spinner>
+      </span>
+
+    </form>
+
+
+    <div *ngIf="error" class="center-stuff">
+      <p class="font-18b alert-danger">{{ error }}</p>
+    </div>
+
+    <br />
+
+
+    <div class="center-stuff">
+      <a mat-button [routerLink]="['/recover']">Forgot password?</a>
+      <a mat-button [routerLink]="['/signup']" >Need an account?</a>
+    </div>
+
+  </div>
+
+
+</mat-card>

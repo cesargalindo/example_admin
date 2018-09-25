@@ -1,0 +1,19 @@
+<mat-sidenav-container>
+
+  <mat-sidenav #sidenav class="sidenav">
+    <side-menus (click)="sidenav.close()"></side-menus>
+  </mat-sidenav>
+
+  <!--Load google maps - default "google" load for app-->
+  <div [hidden]="true">
+    <agm-map [latitude]="x" [longitude]="y" [scrollwheel]="false" [zoom]="z">
+    </agm-map>
+  </div>
+
+
+  <top-toolbar [SIDENAV]="sidenav" ></top-toolbar>
+
+  <router-outlet></router-outlet>
+
+</mat-sidenav-container>
+

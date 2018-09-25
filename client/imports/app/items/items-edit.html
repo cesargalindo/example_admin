@@ -1,0 +1,146 @@
+<h4 *ngIf="redirectItemInfo" > {{redirectItemInfo.name}} {{redirectItemInfo.quantity}}, {{redirectItemInfo.size}} {{redirectItemInfo.unit}} <img src="{{redirectItemInfo.image}}"> </h4>
+
+<span *ngIf="apolloItem | async"></span>
+
+<span *ngIf="action == 0">
+  <span *ngIf="itemId">
+    <h3>Edit Item</h3>
+  </span>
+
+  <form [formGroup]="editItemForm" >
+
+    <label>Item Name</label>
+    <input type="text" 
+          formControlName="name" 
+          class="item-name"><br>
+    <div *ngIf="errors.itemName_isMinLength" class="alert alert-danger">{{msgs.itemName_isMinLength}} IS STRING</div>
+
+    <br />
+
+    <div class="flex-wrapper">
+
+        <div class="width-40">
+          <label>Size:</label>
+          <input 
+              type="text"  
+              class="item-size"                  
+              formControlName="size">
+        </div>
+
+        <div class="width-60">
+            <label>Units:</label>            
+            <mat-select
+              placeholder="Unit:"
+              formControlName="unit" 
+              (ngModelChange)="onChangeUnits($event)"
+              name="unit">
+            <mat-option *ngFor="let unit of unitsList" [value]="unit.value">
+              <span> {{unit.viewValue}} </span>
+            </mat-option>
+          </mat-select>
+        </div>
+
+    </div>  
+
+    <br />
+    
+    <span *ngIf="!contractor">
+      <label>Image:</label>
+      <input type="text"  formControlName="image"><br>
+  
+      <label>Public</label>
+      <input type="checkbox" formControlName="public" checked="checked" /><br>
+    </span>
+
+    <label>Category:</label>
+    <select [(ngModel)]="categoryValue" formControlName="category">
+      <option *ngFor="let category of categories" [value]="category.value">{{category.viewValue}}</option>
+    </select>
+    --> <span>{{categoryValue}}</span> <br>
+
+    <label class="red">Note</label>
+    <input type="text" 
+          formControlName="note" 
+          class="item-name">
+      <br>
+
+    <span *ngIf="contractor">
+      <br />
+      <label>Done</label>
+      <input type="checkbox" formControlName="public" checked="checked" /><br>
+    </span>
+
+  </form>
+
+  <br /> Tags: &nbsp;
+    <mat-checkbox [(ngModel)]="_varsService.fresh[itemId]">fresh</mat-checkbox>
+    <mat-checkbox [(ngModel)]="_varsService.frozen[itemId]">frozen</mat-checkbox>
+    <mat-checkbox [(ngModel)]="_varsService.raw[itemId]">raw</mat-checkbox>
+    <mat-checkbox [(ngModel)]="_varsService.cooked[itemId]">cooked</mat-checkbox>
+    <mat-checkbox [(ngModel)]="_varsService.bulk[itemId]">bulk</mat-checkbox>
+    <mat-checkbox [(ngModel)]="_varsService.organic[itemId]">organic</mat-checkbox>
+    <mat-checkbox [(ngModel)]="_varsService.alcohol[itemId]">alcohol</mat-checkbox>
+    <mat-checkbox [(ngModel)]="_varsService.beverage[itemId]">beverage</mat-checkbox>
+    <mat-checkbox [(ngModel)]="_varsService.baby[itemId]">baby</mat-checkbox>
+    <mat-checkbox [(ngModel)]="_varsService.dairy[itemId]">dairy</mat-checkbox>
+    <mat-checkbox [(ngModel)]="_varsService.juice[itemId]">juice</mat-checkbox>
+    <mat-checkbox [(ngModel)]="_varsService.bread[itemId]">bread</mat-checkbox>
+    <mat-checkbox [(ngModel)]="_varsService.pastry[itemId]">pastry</mat-checkbox>
+  <br />
+
+  <br />
+  <span *ngIf="display_spinner"> {{display_spinner}} <mat-spinner></mat-spinner> </span>
+  
+  <a mat-raised-button (click)="customRedirect()">Back</a>
+  
+  <span *ngIf="itemId">
+    &nbsp; &nbsp; <button mat-raised-button color="primary" (click)="editExistingItem()" >Update</button>
+  </span>
+
+  <span *ngIf="!itemId">
+    &nbsp; &nbsp; <button mat-raised-button color="primary" (click)="AddStore()" >Add Store</button>
+  </span>
+
+  <span *ngIf="contractor">
+    &nbsp; &nbsp; <a mat-raised-button color="primary" href="https://www.google.com/search?q=UPC+{{upc}}"  target="_blank">Google UPC Search</a>
+  </span>  
+
+
+</span>
+
+
+<span *ngIf="action == 1">
+  <h3>Approve Item</h3>
+
+  <a  mat-raised-button [routerLink]="['/items']">Back</a>
+
+  <button mat-raised-button color="primary" (click)="ApproveItem()" >Approve</button>
+
+</span>
+
+
+<span *ngIf="action == 2">
+  <h3>Reject Item</h3>
+  <a mat-raised-button (click)="customRedirect()">Back</a>
+  <button mat-raised-button color="primary" (click)="RejectItem()" >Reject</button>
+</span>
+
+
+<span (click)="toggleImageFunc()">
+  <p *ngIf="!toggleImageSize" > <img src="{{itemImage}}"> </p> 
+  <p *ngIf="toggleImageSize"> <img src="{{itemImage | displayLargeImage}}"> </p> 
+</span>
+
+
+<h3>================== Information retrieved from UPCITEMDB =================</h3>
+<img src="{{image2}}"> 
+<br />
+<span class="font-18b"> Size: {{size}}  </span>
+<br />
+UPC: {{upc}}
+<br />
+Brand: {{brand}}
+<br />
+Model: {{model}}
+
+

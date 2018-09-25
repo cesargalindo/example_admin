@@ -1,0 +1,42 @@
+
+                    let ac2 = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
+                        types: ["address"]
+                    });
+
+
+                    ac2.addListener("place_changed", () => {
+                                    this._ngZone.run(() => {
+                                            let search_text:string = "";
+
+                                            if (this.searchElementRef.nativeElement.value === undefined || this.searchElementRef.nativeElement.value === null) {
+                                                console.warn("PAC 32: Could not get value from input field.")
+                                            }
+                                            else {
+                                                search_text = this.searchElementRef.nativeElement.value;
+                                            }
+                                            search_text = this.searchElementRef.nativeElement.value;
+
+                                            let place: google.maps.places.PlaceResult = ac2.getPlace();
+                                            if (place.geometry === undefined || place.geometry === null) {
+                                                console.warn("PAC 41: No results found for places search.")
+                                                return;
+                                            }
+
+                                            let searchResults = {
+                                                latitude: place.geometry.location.lat();
+                                                longitude: place.geometry.location.lng();
+                                                accuracy: 10
+                                            }
+
+                                            let searchCriteria = {
+                                                searchType: "places_ac2",
+                                                searchQuery: search_text,
+                                                componentSource: this.contextId
+                                            }
+
+                                            this._locationTrackingService.setCustomLocation(searchResults, this.persistCustomLocation, searchCriteria);
+
+                                            this.onSearchComplete.emit({criteria: searchCriteria, results: searchResults})
+
+                                    });
+                    });

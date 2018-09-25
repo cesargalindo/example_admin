@@ -1,0 +1,75 @@
+<nav mat-tab-nav-bar>
+  <a mat-tab-link [routerLink]="['/sp-schedule']"
+     routerLinkActive="active-link"
+     [routerLinkActiveOptions]="{exact: true}">
+    Scheduled Submits
+  </a>
+
+  <a mat-tab-link [routerLink]="['/spsubmitted']"
+     routerLinkActive="active-link"
+     [routerLinkActiveOptions]="{exact: true}">
+    Active
+  </a>
+
+  <a mat-tab-link [routerLink]="['/sprejected']"
+     routerLinkActive="active-link"
+     [routerLinkActiveOptions]="{exact: true}">
+    Rejected
+  </a>
+
+  <a mat-tab-link [routerLink]="['/spclosed']"
+     routerLinkActive="active-link"
+     [routerLinkActiveOptions]="{exact: true}">
+    Closed
+  </a>
+</nav>
+<p *ngIf="errors.error" class="alert-danger">{{errors.error}}</p>
+<p *ngIf="errors.success" class="green">{{errors.success}}</p>
+
+<table>
+  <tr>
+    <th>Scheduled</th>
+    <th>Status</th>
+    <th>Name</th>
+    <th>Store</th>
+    <th>Pay Request</th>
+    <th>Sold Out</th>
+    <th>Actions</th>
+  </tr>
+
+  <tr *ngFor="let sp of dataArray | paginate: { id: 'spPager', itemsPerPage: pageSize, currentPage: p, totalItems: total }">
+
+    <td> {{sp.scheduled | displayFormatDate}} </td>
+
+    <td>
+      <span *ngIf="sp.status == 1" class="green"> {{rp.status | displayScheduledStatus}} </span>
+      <span *ngIf="sp.status != 1"> {{sp.status | displayScheduledStatus }} </span>
+    </td>
+
+    <td> {{sp.itemName}} <br> {{sp.itemSize}},   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   Qty: {{ sp.quantity }} </td>
+    <td> {{sp.storeName}} <br> {{sp.storeAddress}}  </td>
+
+    <td> {{sp.price | currency:'USD':true:'1.2-2'}} </td>
+
+    <td> {{sp.soldOut }} </td>
+
+    <td>
+      <span *ngIf="sp.status == 0">
+      <a  mat-raised-button color="primary" id="small-button" (click)="editSubmit(sp)">Edit</a>
+      <a  mat-raised-button  id="small-button" (click)="cancelScheduledSubmit(sp)">Cancel</a>
+      </span>
+    </td>
+
+
+  </tr>
+
+  <div class="center-stuff">
+    <div class="spinner" [ngClass]="{ 'hidden': !loading }">.....</div>
+    <pagination-controls (pageChange)="getPageX($event)" id="spPager"></pagination-controls>
+
+  </div>
+
+
+</table>
+
+

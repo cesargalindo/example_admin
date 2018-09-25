@@ -1,0 +1,53 @@
+<mat-card class="margin-3">
+
+  <mat-toolbar color="primary" class="margin-bottom-15">
+    Recover Your Password
+  </mat-toolbar>
+
+  <div class="card-body">
+
+      <span *ngIf="!display_spinner">
+        <form [formGroup]="recoverForm" (submit)="recover()">
+
+          <mat-form-field class="input-width-95">
+            <input
+                matInput
+                formControlName="email"
+                dividerColor="primary"
+                type="email"
+                maxlength="50"
+                required
+                placeholder="Email"
+                (blur)="emailValidator(recoverForm.value.email) == true ? emailIsInvalid = false : emailIsInvalid= true" >
+          </mat-form-field>
+          <div *ngIf="emailIsInvalid" class="alert-danger">Email address is invalid</div>
+
+          <br />
+          <br />
+
+          <button type="submit" mat-raised-button color="primary">Recover</button>
+
+        </form>
+      </span>
+
+      <span *ngIf="display_spinner">
+        <mat-spinner></mat-spinner>
+      </span>
+
+      <div *ngIf="error" class="center-stuff">
+        <p class="font-18b alert-danger">{{ error }}</p>
+      </div>
+
+      <div *ngIf="passwordReset" class="center-stuff">
+        <p class="font-18b">Your password has been reset. <br /> Please check your email.</p>
+      </div>
+
+      <br />
+
+      <div class="center-stuff">
+        <a mat-button [routerLink]="['/login']">Remember your password?</a>
+      </div>
+    </div>
+
+</mat-card>
+

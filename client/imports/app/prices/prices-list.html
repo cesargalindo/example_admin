@@ -1,0 +1,71 @@
+
+<div layout="row" layout-wrap layout-align="start start" class="top-admin-controls">
+  <div flex="30">
+    <form [formGroup]="pricesForm">
+      Name: <input [(ngModel)]="clearStoreField"
+                   formControlName="value"
+                   placeholder="todo - not working yet..."
+                   type="text" >
+    </form>
+  </div>
+
+  <div flex="30">
+    <form [formGroup]="stortByForm">
+      <mat-select  placeholder="Sort by" formControlName="value" [(ngModel)]="sortByValue" >
+        <mat-option *ngFor="let item of sortByLists" [value]="item.value">{{item.viewValue}}</mat-option>
+      </mat-select>
+    </form>
+  </div>
+
+  <div flex="30">
+    <form [formGroup]="ascendingForm">
+      <mat-select  placeholder="Order by" formControlName="value" [(ngModel)]="ascendingValue" >
+        <mat-option *ngFor="let item of ascendingList" [value]="item.value">{{item.viewValue}}</mat-option>
+      </mat-select>
+    </form>
+  </div>
+
+  <div flex="10">
+    <button (click)="applyFilter()"> Apply </button>
+  </div>
+</div>
+
+<hr>
+
+<span *ngIf="display_spinner"> {{display_spinner}} <mat-spinner></mat-spinner> </span>
+
+<table>
+  <tr>
+    <th>id</th>
+    <th>Price</th>
+    <th>T Price</th>
+    <th>SubmittedAt</th>
+    <th>StartsAt</th>
+    <th>Quantity</th>
+    <th>GUnit</th>
+    <th>GSize</th>
+    <th>Note</th>
+    <th>Name</th>
+    <th>Size-Unit</th>
+  </tr>
+
+  <tr *ngFor="let price of thesePrices | paginate: { id: 'allPrices', itemsPerPage: pageSize, currentPage: p, totalItems: total }">
+    <td> {{price._id}} </td>
+    <td> {{price.price}} </td>
+    <td> {{price.expiresAt}} </td>
+    <td> {{price.submittedAt | displayFormatDate}} </td>
+    <td> {{price.startsAt |displayFormatDate}} </td>
+    <td> {{price.quantity}}</td>
+    <td> {{price.gsize}}</td>    
+    <td> {{price.gunit}}</td>
+    <td> {{price.note}} </td>
+    <td> {{price.distance}} </td>
+    <td> {{price.submitterId}} </td>
+  </tr>
+
+</table>
+
+
+<div class="center-stuff">
+  <pagination-controls (pageChange)="getPage($event)" id="allPrices"></pagination-controls>
+</div>

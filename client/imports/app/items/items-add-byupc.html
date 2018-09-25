@@ -1,0 +1,37 @@
+<form [formGroup]="itemsForm">
+    UPCs: <input [(ngModel)]="searchName"
+                 formControlName="name"
+                 placeholder="enter upc numbers seperated by commas"
+                 type="text"
+                 class="input-width-95">
+</form>
+
+<br />
+<table>
+  <tr>
+    <th>Status</th>
+  </tr>
+
+  <tr class="layout-margin-5" *ngFor="let res of results">
+    <td *ngIf="res.status" class="green"> {{ res.msg }} </td>
+    <td *ngIf="!res.status" class="red"> {{ res.error }} </td>
+  </tr>
+</table>
+
+
+<div class="center-stuff">
+  <a  mat-raised-button color="primary" (click)="AddNewItems()">Add New Items</a> &nbsp; &nbsp;
+</div>
+
+<ul>
+  <li>Step 1: Find UPC for valid item on http://www.upcitemdb.com/ </li>
+  <li>Step 2: Enter UPC numbers and click "Add New Items". Note the image name provided...</li>
+  <li>Step 3: Download image to PC from upcitemdb or wherever...</li>
+  <li>Step 4: Rename image to name provided </li>
+  <li>Step 5: then upload image to AWS using script "upc" </li>
+     
+</ul>
+
+
+<hr />
+<a mat-raised-button (click)="testBarcode()"> Test Barcode </a>  

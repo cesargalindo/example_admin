@@ -1,0 +1,11 @@
+[Unit]
+Description=Zojab Admin Server
+
+[Service]
+ExecStart=/root/run_app.sh
+Restart=always
+User=root
+
+[Install]
+WantedBy=multi-user.target
+
